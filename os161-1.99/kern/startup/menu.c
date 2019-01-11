@@ -1,3 +1,4 @@
+q
 /*
  * Copyright (c) 2000, 2001, 2002, 2003, 2004, 2005, 2008, 2009
  *	The President and Fellows of Harvard College.
@@ -289,6 +290,20 @@ cmd_quit(int nargs, char **args)
 	return 0;
 }
 
+extern uint32_t dbflags;
+/*
+ * Command for enabling DB_THREADS debugging
+ */
+static
+int
+cmd_dth(int nargs, char **args)
+{
+	(void)nargs;
+	(void)args;
+	dbflags = 16;
+	return 0;
+}
+
 /*
  * Command for mounting a filesystem.
  */
@@ -437,6 +452,7 @@ static const char *opsmenu[] = {
 	"[sync]    Sync filesystems          ",
 	"[panic]   Intentional panic         ",
 	"[q]       Quit and shut down        ",
+	"[dth]     Enables output of DB_THREADS debugging",
 	NULL
 };
 
@@ -549,6 +565,7 @@ static struct {
 	{ "q",		cmd_quit },
 	{ "exit",	cmd_quit },
 	{ "halt",	cmd_quit },
+	{ "dth",        cmd_dth },
 
 #if OPT_SYNCHPROBS
 	/* in-kernel synchronization problem(s) */
