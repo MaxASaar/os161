@@ -34,7 +34,6 @@
  * Header file for synchronization primitives.
  */
 
-
 #include <spinlock.h>
 
 /*
@@ -74,8 +73,10 @@ void V(struct semaphore *);
  */
 struct lock {
         char *lk_name;
-        // add what you need here
-        // (don't forget to mark things volatile as needed)
+	struct spinlock spin;	
+	volatile char *owner;
+	struct wchan *wchan;
+	volatile bool held;
 };
 
 struct lock *lock_create(const char *name);
