@@ -116,7 +116,9 @@ bool can_go(Direction origin, Direction destination) {
   return true;
 }
 
-void car_signaler(){
+void car_signaler(void * unusedpointer, unsigned long unusedlong){
+  (void) unusedpointer;
+  (void) unusedlong;
   while(isActive){
     lock_acquire(intersectionLock);
     //Straight
@@ -195,7 +197,7 @@ intersection_sync_init(void)
   wnCv = cv_create("wnCv");
   // Start the thread that signals cars to go if they are waiting
   isActive = true;
-  int error = thread_fork("car_signaler", NULL, car_signaler, NULL, NULL);
+  int error = thread_fork("car_signaler", NULL, car_signaler, NULL, 0);
   if (error) {
     panic("car_signaler: thread_fork failed: %s\n", strerror(error));
   }
@@ -214,18 +216,18 @@ intersection_sync_cleanup(void)
 {
   KASSERT(intersectionLock != NULL);
   lock_destroy(intersectionLock);
-  nsCv = cv_destroy(nsCv);
-  neCv = cv_destroy(neCv);
-  nwCv = cv_destroy(nwCv);
-  enCv = cv_destroy(enCv);
-  ewCv = cv_destroy(ewCv);
-  esCv = cv_destroy(esCv);
-  seCv = cv_destroy(seCv);
-  snCv = cv_destroy(snCv);
-  swCv = cv_destroy(swCv);
-  wsCv = cv_destroy(wsCv);
-  weCv = cv_destroy(weCv);
-  wnCv = cv_destroy(wnCv);
+  cv_destroy(nsCv);
+  cv_destroy(neCv);
+  cv_destroy(nwCv);
+  cv_destroy(enCv);
+  cv_destroy(ewCv);
+  cv_destroy(esCv);
+  cv_destroy(seCv);
+  cv_destroy(snCv);
+  cv_destroy(swCv);
+  cv_destroy(wsCv);
+  cv_destroy(weCv);
+  cv_destroy(wnCv);
   isActive = false;
 }
 
