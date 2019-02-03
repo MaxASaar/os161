@@ -13,6 +13,8 @@ typedef enum Directions Direction;
 
 /* student-implemented functions for the road intersection problem */
 
+void car_signaler();
+bool can_go(Direction origin, Direction destination);
 void intersection_sync_init(void);
 void intersection_sync_cleanup(void);
 void intersection_before_entry(Direction origin, Direction destination);
