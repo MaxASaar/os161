@@ -36,6 +36,7 @@
 #include <current.h>
 #include <syscall.h>
 
+#include "opt-A2.h"
 
 /*
  * System call dispatcher.
@@ -128,9 +129,12 @@ syscall(struct trapframe *tf)
 			    (userptr_t)tf->tf_a1,
 			    (int)tf->tf_a2,
 			    (pid_t *)&retval);
-	  break;
 #endif // UW
 
+#if OPT_A2
+	case SYS_fork:
+	  err = sys_fork();
+#endif // OPT_A2
 	    /* Add stuff here */
  
 	default:
@@ -179,5 +183,6 @@ syscall(struct trapframe *tf)
 void
 enter_forked_process(struct trapframe *tf)
 {
+	
 	(void)tf;
 }

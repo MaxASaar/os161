@@ -210,6 +210,7 @@ void
 lock_release(struct lock *lock)
 {
 	KASSERT(lock != NULL);
+	KASSERT(lock->owner == curthread->t_name);
 	spinlock_acquire( &lock->spin );
 		lock->held = false;
 		lock->owner = NULL;
@@ -282,9 +283,9 @@ cv_signal(struct cv *cv, struct lock *lock)
 {
         KASSERT(cv != NULL);
 	KASSERT(lock != NULL);
-	KASSERT(lock->owner == curthread->t_name);
-
-	wchan_wakeone(cv->wchan);
+	if(lock->owner == curthread->t_name){
+		wchan_wakeone(cv->wchan);
+	}
 }
 
 void
@@ -292,7 +293,7 @@ cv_broadcast(struct cv *cv, struct lock *lock)
 {
         KASSERT(cv != NULL);
 	KASSERT(lock != NULL);
-	KASSERT(lock->owner == curthread->t_name);
-
-	wchan_wakeall(cv->wchan);
+	if(lock->owner == curthread->t_name){
+		wchan_wakeall(cv->wchan);
+	}
 }

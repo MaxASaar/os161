@@ -34,51 +34,60 @@ static struct cv * weCv;
 static struct cv * wnCv;
 
 volatile bool isActive = false;
+volatile int carsInIntersection = 0;
 
 // Checks if a car can enter the current intersection
 // Should acquire the lock before calling this func
 bool can_go(Direction origin, Direction destination) {
   // Straight Pathways
   if(origin == north && destination == south) {
-    if(ewCount > 0) return false;
     if(weCount > 0) return false;
     if(wnCount > 0) return false;
+    if(wsCount > 0) return false;
+    if(ewCount > 0) return false;
     if(esCount > 0) return false;
     if(swCount > 0) return false;
   }
   if(origin == south && destination == north) {
     if(ewCount > 0) return false;
+    if(enCount > 0) return false;
+    if(esCount > 0) return false;
     if(weCount > 0) return false;
     if(wnCount > 0) return false;
-    if(esCount > 0) return false;
     if(neCount > 0) return false;
   }
   if(origin == west && destination == east) {
     if(nsCount > 0) return false;
-    if(snCount > 0) return false;
-    if(esCount > 0) return false;
     if(neCount > 0) return false;
+    if(snCount > 0) return false;
+    if(swCount > 0) return false;
     if(seCount > 0) return false;
+    if(esCount > 0) return false;
   }
   if(origin == east && destination == west) {
     if(nsCount > 0) return false;
-    if(snCount > 0) return false;
-    if(wsCount > 0) return false;
     if(neCount > 0) return false;
-    if(seCount > 0) return false;
+    if(nwCount > 0) return false;
+    if(snCount > 0) return false;
+    if(swCount > 0) return false;
+    if(wnCount > 0) return false;
   }
   // Right Turns
   if(origin == north && destination == west) {
     if(ewCount > 0) return false;
+    if(swCount > 0) return false;
   }
   if(origin == west && destination == south) {
     if(nsCount > 0) return false;
+    if(esCount > 0) return false;
   }
   if(origin == south && destination == east) {
     if(weCount > 0) return false;
+    if(neCount > 0) return false;
   }
   if(origin == east && destination == north) {
     if(snCount > 0) return false;
+    if(wnCount > 0) return false;
   }
   // Left Turns
   if(origin == north && destination == east) {
@@ -88,22 +97,25 @@ bool can_go(Direction origin, Direction destination) {
     if(esCount > 0) return false;
     if(snCount > 0) return false;
     if(seCount > 0) return false;
+    if(swCount > 0) return false;
   }
   if(origin == west && destination == north) {
     if(nsCount > 0) return false;
     if(neCount > 0) return false;
     if(ewCount > 0) return false;
     if(enCount > 0) return false;
+    if(esCount > 0) return false;
     if(snCount > 0) return false;
     if(swCount > 0) return false;
   }
   if(origin == south && destination == west) {
     if(nsCount > 0) return false;
     if(nwCount > 0) return false;
+    if(neCount > 0) return false;
     if(ewCount > 0) return false;
     if(esCount > 0) return false;
-    if(nsCount > 0) return false;
-    if(nwCount > 0) return false;
+    if(weCount > 0) return false;
+    if(wnCount > 0) return false;
   }
   if(origin == east && destination == south) {
     if(nsCount > 0) return false;
@@ -112,6 +124,7 @@ bool can_go(Direction origin, Direction destination) {
     if(wsCount > 0) return false;
     if(snCount > 0) return false;
     if(swCount > 0) return false;
+    if(wnCount > 0) return false;
   }
   return true;
 }
@@ -124,35 +137,48 @@ void car_signaler(void * unusedpointer, unsigned long unusedlong){
     //Straight
     if(can_go(north, south)) {
       cv_broadcast(nsCv, intersectionLock);
-    } else if(can_go(west, east)) {
+    }
+    if(can_go(west, east)) {
       cv_broadcast(weCv, intersectionLock);
-    } else if(can_go(south, north)) {
+    }
+    if(can_go(south, north)) {
       cv_broadcast(snCv, intersectionLock);
-    } else if(can_go(east, west)) {
+    }
+    if(can_go(east, west)) {
       cv_broadcast(ewCv, intersectionLock);
     } 
     // Right Turns
-    else if(can_go(north, west)) {
+    if(can_go(north, west)) {
       cv_broadcast(nwCv, intersectionLock);
-    } else if(can_go(west, south)) {
+    }
+    if(can_go(west, south)) {
       cv_broadcast(wsCv, intersectionLock);
-    } else if(can_go(south, east)) {
+    }
+    if(can_go(south, east)) {
       cv_broadcast(seCv, intersectionLock);
-    } else if(can_go(east, north)) {
+    }
+    if(can_go(east, north)) {
       cv_broadcast(enCv, intersectionLock);
     }
     // Left Turns
-    else if(can_go(north, east)) {
+    if(can_go(north, east)) {
       cv_broadcast(neCv, intersectionLock);
-    } else if(can_go(west, north)) {
+    }
+    if(can_go(west, north)) {
       cv_broadcast(wnCv, intersectionLock);
-    } else if(can_go(south, west)) {
+    }
+    if(can_go(south, west)) {
       cv_broadcast(swCv, intersectionLock);
-    } else if(can_go(east, south)) {
+    }
+    if(can_go(east, south)) {
       cv_broadcast(esCv, intersectionLock);
     }
+    // kprintf("Please");
     lock_release(intersectionLock);
+    // kprintf("Work\n");
   }
+  // kprintf("WOWOWOWOWOWOWOWOWWOW");
+  thread_exit();
 }
 
 /* 
@@ -197,7 +223,7 @@ intersection_sync_init(void)
   wnCv = cv_create("wnCv");
   // Start the thread that signals cars to go if they are waiting
   isActive = true;
-  int error = thread_fork("car_signaler", NULL, car_signaler, NULL, 0);
+  int error = thread_fork("car_signaler", NULL, car_signaler, NULL, -69);
   if (error) {
     panic("car_signaler: thread_fork failed: %s\n", strerror(error));
   }
@@ -215,7 +241,7 @@ void
 intersection_sync_cleanup(void)
 {
   KASSERT(intersectionLock != NULL);
-  lock_destroy(intersectionLock);
+  isActive = false;
   cv_destroy(nsCv);
   cv_destroy(neCv);
   cv_destroy(nwCv);
@@ -228,7 +254,8 @@ intersection_sync_cleanup(void)
   cv_destroy(wsCv);
   cv_destroy(weCv);
   cv_destroy(wnCv);
-  isActive = false;
+  // kprintf("cleaning up");
+  lock_destroy(intersectionLock);
 }
 
 
@@ -250,75 +277,64 @@ intersection_before_entry(Direction origin, Direction destination)
 {
   KASSERT(intersectionLock != NULL);
   lock_acquire(intersectionLock);
-  if(can_go(origin, destination)) {
-    // Straight
-    if(origin == north && destination == south) nsCount++;
-    if(origin == west && destination == east) weCount++;
-    if(origin == south && destination == north) snCount++;
-    if(origin == east && destination == west) ewCount++;
-    // Right Turns
-    if(origin == north && destination == west) nwCount++;
-    if(origin == west && destination == south) wsCount++;
-    if(origin == south && destination == east) seCount++;
-    if(origin == east && destination == north) enCount++;
-    // Left Turns
-    if(origin == north && destination == east) neCount++;
-    if(origin == west && destination == north) wnCount++;
-    if(origin == south && destination == west) swCount++;
-    if(origin == east && destination == south) esCount++;
-  } else {
+  // kprintf("e(%d,%d) ", origin, destination);
+  carsInIntersection++;
+  while(!can_go(origin, destination)){
     // Straight
     if(origin == north && destination == south){
       cv_wait(nsCv, intersectionLock);
-      nsCount++;
     }
     if(origin == west && destination == east){
       cv_wait(weCv, intersectionLock);
-      weCount++;
     }
     if(origin == south && destination == north){
       cv_wait(snCv, intersectionLock);
-      snCount++;
     }
     if(origin == east && destination == west){
       cv_wait(ewCv, intersectionLock);
-      ewCount++;
     }
     // Right Turns
     if(origin == north && destination == west){
       cv_wait(nwCv, intersectionLock);
-      nwCount++;
     }
     if(origin == west && destination == south){
       cv_wait(wsCv, intersectionLock);
-      wsCount++;
     }
     if(origin == south && destination == east){
       cv_wait(seCv, intersectionLock);
-      seCount++;
     }
     if(origin == east && destination == north){
       cv_wait(enCv, intersectionLock);
-      enCount++;
     }
     // Left Turns
     if(origin == north && destination == east){
       cv_wait(neCv, intersectionLock);
-      neCount++;
     }
     if(origin == west && destination == north){
       cv_wait(wnCv, intersectionLock);
-      wnCount++;
     }
     if(origin == south && destination == west){
       cv_wait(swCv, intersectionLock);
-      swCount++;
     }
     if(origin == east && destination == south){
       cv_wait(esCv, intersectionLock);
-      esCount++;
     }
   }
+  // Straight
+  if(origin == north && destination == south) nsCount++;
+  if(origin == west && destination == east) weCount++;
+  if(origin == south && destination == north) snCount++;
+  if(origin == east && destination == west) ewCount++;
+  // Right Turns
+  if(origin == north && destination == west) nwCount++;
+  if(origin == west && destination == south) wsCount++;
+  if(origin == south && destination == east) seCount++;
+  if(origin == east && destination == north) enCount++;
+  // Left Turns
+  if(origin == north && destination == east) neCount++;
+  if(origin == west && destination == north) wnCount++;
+  if(origin == south && destination == west) swCount++;
+  if(origin == east && destination == south) esCount++;
   lock_release(intersectionLock);
 }
 
@@ -340,6 +356,9 @@ intersection_after_exit(Direction origin, Direction destination)
   // This function acquires the intersection lock, and decrements the respective count 
   KASSERT(intersectionLock != NULL);
   lock_acquire(intersectionLock);
+  // kprintf("d(%d,%d) ", origin, destination);
+  carsInIntersection--;
+  // kprintf("cars in intersection: %d\n", carsInIntersection);
   switch (origin)
   {
     case north:
