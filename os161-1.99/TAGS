@@ -1,0 +1,2818 @@
+
+kern/arch/mips/include/current.h,124
+#define _MIPS_CURRENT_H_31,1599
+#undef __NEED_CURTHREAD80,3598
+#define __NEED_CURCPU81,3622
+#define INIT_CURCPU(84,3716
+
+kern/arch/mips/include/elf.h,441
+#define _MIPS_ELF_H_31,1637
+#define EM_MACHINE 39,1764
+#define R_MIPS_NONE	42,1846
+#define R_MIPS_16	43,1885
+#define R_MIPS_32	44,1924
+#define R_MIPS_REL32	45,1963
+#define R_MIPS_26	46,2033
+#define R_MIPS_HI16	47,2098
+#define R_MIPS_LO16	48,2151
+#define R_MIPS_GPREL16	49,2204
+#define R_MIPS_LITERAL	50,2266
+#define R_MIPS_GOT16	51,2339
+#define R_MIPS_PC16	52,2407
+#define R_MIPS_CALL16	53,2465
+#define R_MIPS_GPREL32	54,2536
+
+kern/arch/mips/include/kern/endian.h,66
+#define _KERN_MIPS_ENDIAN_H_31,1645
+#define _BYTE_ORDER 42,1969
+
+kern/arch/mips/include/kern/regdefs.h,678
+#define _KERN_MIPS_REGDEFS_H_37,1785
+#define z0 40,1817
+#define AT 41,1863
+#define v0 42,1912
+#define v1 43,1945
+#define a0 44,1978
+#define a1 45,2014
+#define a2 46,2050
+#define a3 47,2086
+#define t0 48,2122
+#define t1 49,2173
+#define t2 50,2224
+#define t3 51,2275
+#define t4 52,2326
+#define t5 53,2377
+#define t6 54,2428
+#define t7 55,2479
+#define s0 56,2530
+#define s1 57,2577
+#define s2 58,2624
+#define s3 59,2671
+#define s4 60,2718
+#define s5 61,2765
+#define s6 62,2812
+#define s7 63,2859
+#define t8 64,2906
+#define t9 65,2957
+#define k0 66,3008
+#define k1 67,3052
+#define gp 68,3096
+#define sp 69,3136
+#define s8 70,3175
+#define ra 71,3238
+
+kern/arch/mips/include/kern/setjmp.h,101
+#define _MIPS_SETJMP_H_31,1640
+#define __JB_REGS 41,1822
+typedef uint32_t jmp_buf[jmp_buf44,1896
+
+kern/arch/mips/include/kern/signal.h,64
+#define _KERN_MIPS_SIGNAL_H_32,1604
+struct sigcontext 41,1939
+
+kern/arch/mips/include/kern/types.h,643
+#define _KERN_MIPS_TYPES_H_31,1644
+typedef char      __i8;43,1921
+typedef short     __i16;44,1988
+typedef int       __i32;45,2056
+typedef long long __i64;46,2124
+typedef unsigned char      __u8;48,2193
+typedef unsigned short     __u16;49,2262
+typedef unsigned int       __u32;50,2332
+typedef unsigned long long __u64;51,2402
+typedef long __intptr_t;54,2504
+typedef unsigned long __uintptr_t;55,2579
+typedef unsigned __size_t;65,2991
+typedef int __ssize_t;66,3061
+typedef int __ptrdiff_t;67,3132
+typedef unsigned long __size_t;69,3211
+typedef long __ssize_t;70,3281
+typedef long __ptrdiff_t;71,3352
+#define __CHAR_BIT 75,3464
+
+kern/arch/mips/include/specialreg.h,985
+#define _MIPS_SPECIALREG_H_31,1644
+#define c0_index 37,1734
+#define c0_random 38,1797
+#define c0_entrylo 39,1860
+#define c0_context 42,2050
+#define c0_vaddr 45,2237
+#define c0_count 46,2313
+#define c0_entryhi 47,2382
+#define c0_compare 48,2457
+#define c0_status 49,2534
+#define c0_cause 50,2598
+#define c0_epc 51,2661
+#define c0_prid 52,2721
+#define CST_IEc 61,3047
+#define CST_KUc 62,3111
+#define CST_IEp 63,3168
+#define CST_KUp 64,3233
+#define CST_IEo 65,3291
+#define CST_KUo 66,3351
+#define CST_MODEMASK 67,3404
+#define CST_IRQMASK 68,3461
+#define CST_BEV 69,3539
+#define CCA_UTLB 74,3654
+#define CCA_CODE 75,3732
+#define CCA_IRQS 76,3792
+#define CCA_COPN 77,3859
+#define CCA_JD 78,3927
+#define CCA_CODESHIFT 80,4007
+#define CIN_P 85,4113
+#define CIN_INDEX 86,4186
+#define CIN_INDEXSHIFT 88,4246
+#define CTX_VSHIFT 105,4994
+#define CTX_PTBASE 106,5062
+#define CTX_PTBASESHIFT 108,5123
+#define EXADDR_UTLB	113,5233
+#define EXADDR_GENERAL	114,5264
+
+kern/arch/mips/include/spinlock.h,207
+#define _MIPS_SPINLOCK_H_31,1642
+typedef unsigned spinlock_data_t;37,1737
+#define SPINLOCK_DATA_INITIALIZER	40,1822
+spinlock_data_set(51,2191
+spinlock_data_get(58,2302
+spinlock_data_testandset(65,2400
+
+kern/arch/mips/include/thread.h,187
+#define _MIPS_THREAD_H_31,1640
+typedef void (*badfaultfunc_t)badfaultfunc_t40,1729
+struct thread_machdep 42,1768
+	badfaultfunc_t tm_badfaultfunc;43,1792
+	jmp_buf tm_copyjmp;44,1861
+
+kern/arch/mips/include/tlb.h,264
+#define _MIPS_TLB_H_31,1637
+#define TLBHI_VPAGE 80,3505
+#define TLBLO_PPAGE 84,3610
+#define TLBLO_NOCACHE 85,3643
+#define TLBLO_DIRTY 86,3676
+#define TLBLO_VALID 87,3709
+#define TLBHI_INVALID(95,3963
+#define TLBLO_INVALID(96,4020
+#define NUM_TLB 102,4107
+
+kern/arch/mips/include/trapframe.h,1311
+#define _MIPS_TRAPFRAME_H_31,1643
+struct trapframe 40,1824
+	uint32_t tf_vaddr;41,1843
+	uint32_t tf_status;42,1898
+	uint32_t tf_cause;43,1955
+	uint32_t tf_lo;44,2010
+	uint32_t tf_hi;45,2027
+	uint32_t tf_ra;46,2044
+	uint32_t tf_at;47,2086
+	uint32_t tf_v0;48,2132
+	uint32_t tf_v1;49,2178
+	uint32_t tf_a0;50,2207
+	uint32_t tf_a1;51,2224
+	uint32_t tf_a2;52,2241
+	uint32_t tf_a3;53,2258
+	uint32_t tf_t0;54,2275
+	uint32_t tf_t1;55,2292
+	uint32_t tf_t2;56,2309
+	uint32_t tf_t3;57,2326
+	uint32_t tf_t4;58,2343
+	uint32_t tf_t5;59,2360
+	uint32_t tf_t6;60,2377
+	uint32_t tf_t7;61,2394
+	uint32_t tf_s0;62,2411
+	uint32_t tf_s1;63,2428
+	uint32_t tf_s2;64,2445
+	uint32_t tf_s3;65,2462
+	uint32_t tf_s4;66,2479
+	uint32_t tf_s5;67,2496
+	uint32_t tf_s6;68,2513
+	uint32_t tf_s7;69,2530
+	uint32_t tf_t8;70,2547
+	uint32_t tf_t9;71,2564
+	uint32_t tf_k0;72,2581
+	uint32_t tf_k1;73,2638
+	uint32_t tf_gp;74,2668
+	uint32_t tf_sp;75,2685
+	uint32_t tf_s8;76,2702
+	uint32_t tf_epc;77,2719
+#define EX_IRQ 83,2806
+#define EX_MOD 84,2845
+#define EX_TLBL 85,2911
+#define EX_TLBS 86,2957
+#define EX_ADEL 87,3004
+#define EX_ADES 88,3055
+#define EX_IBE 89,3107
+#define EX_DBE 90,3167
+#define EX_SYS 91,3230
+#define EX_BP 92,3267
+#define EX_RI 93,3307
+#define EX_CPU 94,3367
+#define EX_OVF 95,3417
+
+kern/arch/mips/include/types.h,93
+#define _MIPS_TYPES_H_31,1639
+typedef __u32 paddr_t;43,1983
+typedef __u32 vaddr_t;44,2006
+
+kern/arch/mips/include/vm.h,433
+#define _MIPS_VM_H_31,1636
+#define PAGE_SIZE 38,1710
+#define PAGE_FRAME 39,1764
+#define MIPS_KUSEG 51,2170
+#define MIPS_KSEG0 52,2201
+#define MIPS_KSEG1 53,2232
+#define MIPS_KSEG2 54,2263
+#define PADDR_TO_KVADDR(68,2961
+#define USERSPACETOP 74,3121
+#define USERSTACK 84,3420
+struct tlbshootdown 111,4297
+	struct addrspace *ts_addrspace;ts_addrspace115,4381
+	vaddr_t ts_vaddr;116,4414
+#define TLBSHOOTDOWN_MAX 119,4437
+
+kern/arch/mips/locore/cache-mips161.S,43
+mips_flushicache:mips_flushicache46,2060
+
+kern/arch/mips/locore/exception-mips1.S,301
+mips_utlb_handler:mips_utlb_handler68,2663
+mips_utlb_end:mips_utlb_end72,2796
+mips_general_handler:mips_general_handler86,3094
+mips_general_end:mips_general_end90,3233
+common_exception:common_exception104,3510
+exception_return:exception_return270,8764
+asm_usermode:asm_usermode340,10330
+
+kern/arch/mips/locore/trap.c,188
+#define NTRAPCODES 52,2063
+static const char *const trapcodenames[trapcodenames53,2085
+kill_curthread(74,2508
+mips_trap(126,3477
+mips_usermode(367,10283
+enter_new_process(418,11932
+
+kern/arch/mips/syscall/syscall.c,48
+syscall(79,3485
+enter_forked_process(180,5703
+
+kern/arch/mips/thread/cpu.c,300
+vaddr_t cpustacks[cpustacks59,2480
+vaddr_t cputhreads[cputhreads60,2508
+cpu_machdep_init(68,2717
+cpu_identify(100,3390
+#define GET_STATUS(130,4238
+#define SET_STATUS(131,4301
+cpu_irqon(137,4395
+cpu_irqoff(150,4536
+cpu_irqonoff(164,4692
+wait(194,5252
+cpu_idle(220,5932
+cpu_halt(230,6026
+
+kern/arch/mips/thread/switch.S,47
+switchframe_switch:switchframe_switch42,1824
+
+kern/arch/mips/thread/switchframe.c,26
+switchframe_init(55,2397
+
+kern/arch/mips/thread/switchframe.h,385
+#define _MIPS_SWITCHFRAME_H_31,1645
+struct switchframe 39,1808
+        uint32_t sf_s0;40,1829
+        uint32_t sf_s1;41,1853
+        uint32_t sf_s2;42,1877
+        uint32_t sf_s3;43,1901
+        uint32_t sf_s4;44,1925
+        uint32_t sf_s5;45,1949
+        uint32_t sf_s6;46,1973
+        uint32_t sf_s8;47,1997
+        uint32_t sf_gp;48,2021
+        uint32_t sf_ra;49,2045
+
+kern/arch/mips/thread/thread_machdep.c,61
+thread_machdep_init(40,1720
+thread_machdep_cleanup(46,1806
+
+kern/arch/mips/thread/threadstart.S,43
+mips_threadstart:mips_threadstart42,1820
+
+kern/arch/mips/vm/dumbvm.c,475
+#define DUMBVM_STACKPAGES 47,1982
+static struct spinlock stealmem_lock 52,2058
+vm_bootstrap(55,2125
+getppages(62,2183
+alloc_kpages(76,2414
+free_kpages(87,2546
+vm_tlbshootdown_all(95,2630
+vm_tlbshootdown(101,2714
+vm_fault(108,2829
+as_create(209,5463
+as_destroy(228,5743
+as_activate(234,5798
+as_deactivate(258,6183
+as_define_region(264,6227
+as_zero_region(304,7006
+as_prepare_load(310,7122
+as_complete_load(339,7715
+as_define_stack(346,7785
+as_copy(355,7921
+
+kern/arch/mips/vm/ram.c,163
+vaddr_t firstfree;36,1691
+static paddr_t firstpaddr;38,1762
+static paddr_t lastpaddr;39,1832
+ram_bootstrap(46,2008
+ram_stealmem(95,3476
+ram_getsize(121,3953
+
+kern/arch/mips/vm/tlb-mips1.S,147
+tlb_random:tlb_random50,2091
+tlb_write:tlb_write71,2651
+tlb_read:tlb_read95,3409
+tlb_probe:tlb_probe123,4352
+tlb_reset:tlb_reset170,5854
+
+kern/arch/sys161/dev/lamebus_machdep.c,538
+#define CPU_FREQUENCY 51,2096
+mips_timer_set(62,2389
+static struct lamebus_softc *lamebus;lamebus81,2926
+mainbus_bootstrap(84,2970
+mainbus_start_cpus(123,3805
+lamebus_map_area(134,4028
+lamebus_read_register(150,4338
+lamebus_write_register(161,4548
+mainbus_poweroff(174,4759
+mainbus_reboot(189,5021
+mainbus_halt(208,5487
+mainbus_panic(221,5776
+mainbus_ramsize(231,5924
+mainbus_send_ipi(240,6003
+#define LAMEBUS_IRQ_BIT 250,6181
+#define LAMEBUS_IPI_BIT 251,6244
+#define MIPS_TIMER_BIT 252,6312
+mainbus_interrupt(255,6374
+
+kern/arch/sys161/include/bus.h,161
+#define _SYS161_BUS_H_31,1639
+#define bus_write_register(43,1927
+#define bus_read_register(46,2032
+#define bus_map_area(49,2125
+#define LB_BASEADDR 57,2304
+
+kern/arch/sys161/include/maxcpus.h,60
+#define _SYS161_MAXCPUS_H_31,1643
+#define MAXCPUS 42,2027
+
+kern/arch/sys161/startup/start.S,103
+__start:__start39,1766
+panicstr:panicstr232,7651
+cpu_start_secondary:cpu_start_secondary242,7859
+
+kern/compile/ASST0/opt-A5.h,45
+#define _OPT_A5_H_3,62
+#define OPT_A5 4,81
+
+kern/compile/ASST0/opt-netfs.h,51
+#define _OPT_NETFS_H_3,65
+#define OPT_NETFS 4,87
+
+kern/compile/ASST0/opt-dumbvm.h,53
+#define _OPT_DUMBVM_H_3,66
+#define OPT_DUMBVM 4,89
+
+kern/compile/ASST0/opt-noasserts.h,59
+#define _OPT_NOASSERTS_H_3,69
+#define OPT_NOASSERTS 4,95
+
+kern/compile/ASST0/opt-A1.h,45
+#define _OPT_A1_H_3,62
+#define OPT_A1 4,81
+
+kern/compile/ASST0/opt-net.h,47
+#define _OPT_NET_H_3,63
+#define OPT_NET 4,83
+
+kern/compile/ASST0/opt-A2.h,45
+#define _OPT_A2_H_3,62
+#define OPT_A2 4,81
+
+kern/compile/ASST0/opt-sfs.h,47
+#define _OPT_SFS_H_3,63
+#define OPT_SFS 4,83
+
+kern/compile/ASST0/opt-A3.h,45
+#define _OPT_A3_H_3,62
+#define OPT_A3 4,81
+
+kern/compile/ASST0/opt-A4.h,45
+#define _OPT_A4_H_3,62
+#define OPT_A4 4,81
+
+kern/compile/ASST0/opt-synchprobs.h,61
+#define _OPT_SYNCHPROBS_H_3,70
+#define OPT_SYNCHPROBS 4,97
+
+kern/compile/ASST0/opt-A0.h,45
+#define _OPT_A0_H_3,62
+#define OPT_A0 4,81
+
+kern/compile/ASST0/autoconf.c,998
+static int nextunit_beep;16,650
+static int nextunit_con;17,676
+static int nextunit_emu;18,701
+static int nextunit_lhd;19,726
+static int nextunit_lrandom;20,751
+static int nextunit_lser;21,780
+static int nextunit_ltimer;22,806
+static int nextunit_ltrace;23,834
+static int nextunit_random;24,862
+static int nextunit_rtclock;25,890
+tryattach_emu_to_lamebus(29,931
+tryattach_ltrace_to_lamebus(53,1424
+tryattach_ltimer_to_lamebus(77,1938
+tryattach_lrandom_to_lamebus(101,2452
+tryattach_lhd_to_lamebus(125,2973
+tryattach_lser_to_lamebus(149,3466
+tryattach_beep_to_ltimer(173,3966
+tryattach_con_to_lser(197,4462
+tryattach_rtclock_to_ltimer(221,4943
+tryattach_random_to_lrandom(245,5460
+autoconf_con(270,5976
+autoconf_lser(277,6069
+autoconf_lhd(289,6244
+autoconf_emu(296,6337
+autoconf_random(303,6430
+autoconf_ltimer(310,6529
+autoconf_lamebus(326,6795
+autoconf_beep(375,7800
+autoconf_lrandom(382,7895
+autoconf_rtclock(394,8085
+autoconf_ltrace(401,8186
+pseudoconfig(407,8278
+
+kern/compile/ASST0/autoconf.h,26
+#define _AUTOCONF_H_3,64
+
+kern/compile/ASST0/vers.c,70
+const int buildversion 2,63
+const char buildconfig[buildconfig3,91
+
+kern/compile/ASST1/opt-A5.h,45
+#define _OPT_A5_H_3,62
+#define OPT_A5 4,81
+
+kern/compile/ASST1/opt-netfs.h,51
+#define _OPT_NETFS_H_3,65
+#define OPT_NETFS 4,87
+
+kern/compile/ASST1/opt-dumbvm.h,53
+#define _OPT_DUMBVM_H_3,66
+#define OPT_DUMBVM 4,89
+
+kern/compile/ASST1/opt-noasserts.h,59
+#define _OPT_NOASSERTS_H_3,69
+#define OPT_NOASSERTS 4,95
+
+kern/compile/ASST1/opt-A1.h,45
+#define _OPT_A1_H_3,62
+#define OPT_A1 4,81
+
+kern/compile/ASST1/opt-net.h,47
+#define _OPT_NET_H_3,63
+#define OPT_NET 4,83
+
+kern/compile/ASST1/opt-A2.h,45
+#define _OPT_A2_H_3,62
+#define OPT_A2 4,81
+
+kern/compile/ASST1/opt-sfs.h,47
+#define _OPT_SFS_H_3,63
+#define OPT_SFS 4,83
+
+kern/compile/ASST1/opt-A3.h,45
+#define _OPT_A3_H_3,62
+#define OPT_A3 4,81
+
+kern/compile/ASST1/opt-A4.h,45
+#define _OPT_A4_H_3,62
+#define OPT_A4 4,81
+
+kern/compile/ASST1/opt-synchprobs.h,61
+#define _OPT_SYNCHPROBS_H_3,70
+#define OPT_SYNCHPROBS 4,97
+
+kern/compile/ASST1/opt-A0.h,45
+#define _OPT_A0_H_3,62
+#define OPT_A0 4,81
+
+kern/compile/ASST1/autoconf.c,998
+static int nextunit_beep;16,650
+static int nextunit_con;17,676
+static int nextunit_emu;18,701
+static int nextunit_lhd;19,726
+static int nextunit_lrandom;20,751
+static int nextunit_lser;21,780
+static int nextunit_ltimer;22,806
+static int nextunit_ltrace;23,834
+static int nextunit_random;24,862
+static int nextunit_rtclock;25,890
+tryattach_emu_to_lamebus(29,931
+tryattach_ltrace_to_lamebus(53,1424
+tryattach_ltimer_to_lamebus(77,1938
+tryattach_lrandom_to_lamebus(101,2452
+tryattach_lhd_to_lamebus(125,2973
+tryattach_lser_to_lamebus(149,3466
+tryattach_beep_to_ltimer(173,3966
+tryattach_con_to_lser(197,4462
+tryattach_rtclock_to_ltimer(221,4943
+tryattach_random_to_lrandom(245,5460
+autoconf_con(270,5976
+autoconf_lser(277,6069
+autoconf_lhd(289,6244
+autoconf_emu(296,6337
+autoconf_random(303,6430
+autoconf_ltimer(310,6529
+autoconf_lamebus(326,6795
+autoconf_beep(375,7800
+autoconf_lrandom(382,7895
+autoconf_rtclock(394,8085
+autoconf_ltrace(401,8186
+pseudoconfig(407,8278
+
+kern/compile/ASST1/autoconf.h,26
+#define _AUTOCONF_H_3,64
+
+kern/compile/ASST1/vers.c,70
+const int buildversion 2,63
+const char buildconfig[buildconfig3,92
+
+kern/dev/generic/beep.c,88
+static struct beep_softc *the_beep the_beep47,2071
+config_beep(50,2119
+beep(63,2306
+
+kern/dev/generic/beep.h,131
+#define _GENERIC_BEEP_H_31,1641
+struct beep_softc 38,1779
+	void *bs_devdata;bs_devdata39,1799
+	void (*bs_beep)bs_beep40,1818
+
+kern/dev/generic/console.c,740
+static struct con_softc *the_console the_console68,2783
+static struct lock *con_userlock_read con_userlock_read74,2942
+static struct lock *con_userlock_write con_userlock_write75,2988
+#define DELAYBUFSIZE 84,3271
+static char delayed_outbuf[delayed_outbuf85,3298
+static size_t delayed_outbuf_pos=86,3340
+putch_delayed(90,3389
+flush_delay_buf(103,3622
+putch_polled(120,3916
+putch_prepare_polled(127,4016
+putch_complete_polled(136,4154
+putch_intr(150,4415
+getch_intr(161,4596
+con_input(182,5210
+con_start(203,5630
+putch(221,5951
+putch_prepare(237,6187
+putch_complete(253,6424
+getch(269,6662
+con_open(286,6944
+con_close(295,7045
+con_io(303,7114
+con_ioctl(354,7831
+attach_console_to_vfs(365,7971
+config_con(399,8534
+
+kern/dev/generic/console.h,523
+#define _GENERIC_CONSOLE_H_31,1644
+#define CONSOLE_INPUT_BUFFER_SIZE 40,1868
+struct con_softc 42,1906
+	void *cs_devdata;cs_devdata44,1962
+	void (*cs_send)cs_send45,1981
+	void (*cs_sendpolled)cs_sendpolled46,2022
+	void (*cs_startpolling)cs_startpolling47,2069
+	void (*cs_endpolling)cs_endpolling48,2110
+	struct semaphore *cs_rsem;cs_rsem51,2187
+	struct semaphore *cs_wsem;cs_wsem52,2215
+	unsigned char cs_gotchars[cs_gotchars53,2243
+	unsigned cs_gotchars_head;54,2298
+	unsigned cs_gotchars_tail;55,2359
+
+kern/dev/generic/random.c,191
+static struct random_softc *the_random the_random50,2109
+randopen(58,2229
+randclose(74,2391
+randio(85,2516
+randioctl(101,2739
+config_random(116,2923
+random(151,3560
+randmax(160,3701
+
+kern/dev/generic/random.h,249
+#define _GENERIC_RANDOM_H_31,1643
+struct random_softc 36,1704
+	void *rs_devdata;rs_devdata38,1775
+	uint32_t (*rs_random)rs_random39,1794
+	uint32_t (*rs_randmax)rs_randmax40,1833
+	int (*rs_read)rs_read41,1873
+	struct device rs_dev;43,1923
+
+kern/dev/generic/rtclock.c,99
+static struct rtclock_softc *the_clock the_clock50,2193
+config_rtclock(53,2245
+gettime(66,2443
+
+kern/dev/generic/rtclock.h,147
+#define _GENERIC_RTCLOCK_H_31,1644
+struct rtclock_softc 38,1786
+	void *rtc_devdata;rtc_devdata39,1809
+	void (*rtc_gettime)rtc_gettime41,1872
+
+kern/dev/lamebus/beep_ltimer.c,31
+attach_beep_to_ltimer(42,1857
+
+kern/dev/lamebus/con_lscreen.c,31
+attach_con_to_lscreen(42,1851
+
+kern/dev/lamebus/con_lser.c,28
+attach_con_to_lser(42,1848
+
+kern/dev/lamebus/emu.c,2478
+#define REG_HANDLE 58,2397
+#define REG_OFFSET 59,2421
+#define REG_IOLEN 60,2445
+#define REG_OPER 61,2469
+#define REG_RESULT 62,2494
+#define EMU_BUFFER 65,2544
+#define EMU_OP_OPEN 68,2608
+#define EMU_OP_CREATE 69,2639
+#define EMU_OP_EXCLCREATE 70,2670
+#define EMU_OP_CLOSE 71,2701
+#define EMU_OP_READ 72,2732
+#define EMU_OP_READDIR 73,2763
+#define EMU_OP_WRITE 74,2794
+#define EMU_OP_GETSIZE 75,2825
+#define EMU_OP_TRUNC 76,2856
+#define EMU_RES_SUCCESS 79,2922
+#define EMU_RES_BADHANDLE 80,2953
+#define EMU_RES_BADOP 81,2984
+#define EMU_RES_BADPATH 82,3015
+#define EMU_RES_BADSIZE 83,3046
+#define EMU_RES_EXISTS 84,3077
+#define EMU_RES_ISDIR 85,3108
+#define EMU_RES_MEDIA 86,3139
+#define EMU_RES_NOHANDLES 87,3170
+#define EMU_RES_NOSPACE 88,3201
+#define EMU_RES_NOTDIR 89,3233
+#define EMU_RES_UNKNOWN 90,3265
+#define EMU_RES_UNSUPP 91,3297
+emu_rreg(104,3479
+emu_wreg(115,3651
+emu_irq(124,3850
+translate_err(140,4147
+emu_waitdone(167,4947
+emu_open(181,5290
+emu_close(229,6212
+emu_doread(267,6818
+emu_read(299,7417
+emu_readdir(310,7637
+emu_write(321,7847
+emu_getsize(352,8400
+emu_trunc(374,8779
+emufs_open(407,9395
+emufs_opendir(431,9807
+emufs_close(454,10095
+emufs_reclaim(467,10257
+emufs_read(527,11372
+emufs_getdirentry(563,11900
+emufs_write(583,12204
+emufs_ioctl(619,12732
+emufs_stat(637,12896
+emufs_file_gettype(665,13459
+emufs_dir_gettype(677,13608
+emufs_tryseek(689,13740
+emufs_fsync(706,13902
+emufs_truncate(717,13991
+emufs_creat(728,14159
+emufs_lookup(759,14738
+emufs_lookparent(789,15294
+emufs_namefile(821,15799
+emufs_mmap(843,16090
+emufs_dir_tryseek(857,16240
+emufs_symlink(866,16340
+emufs_mkdir(876,16483
+emufs_link(886,16611
+emufs_remove(896,16749
+emufs_rmdir(905,16852
+emufs_rename(914,16954
+emufs_void_op_isdir(941,17589
+emufs_uio_op_isdir(949,17668
+emufs_uio_op_notdir(958,17775
+emufs_name_op_notdir(967,17884
+emufs_readlink_notlink(976,17996
+emufs_creat_notdir(985,18107
+emufs_symlink_notdir(998,18310
+emufs_mkdir_notdir(1008,18461
+emufs_link_notdir(1018,18597
+emufs_rename_notdir(1028,18743
+emufs_lookup_notdir(1040,18914
+emufs_lookparent_notdir(1050,19065
+emufs_truncate_isdir(1064,19271
+static const struct vnode_ops emufs_fileops 1076,19438
+static const struct vnode_ops emufs_dirops 1111,20100
+emufs_loadvnode(1148,20750
+emufs_sync(1225,22220
+emufs_getvolname(1236,22319
+emufs_getroot(1248,22484
+emufs_unmount(1268,22733
+emufs_addtovfs(1284,23111
+config_emu(1333,24061
+
+kern/dev/lamebus/emu.h,339
+#define _LAMEBUS_EMU_H_31,1640
+#define EMU_MAXIO 34,1666
+#define EMU_ROOTHANDLE 35,1696
+struct emu_softc 43,1894
+	void *e_busdata;e_busdata45,1959
+	uint32_t e_buspos;46,1977
+	int e_unit;47,1997
+	struct lock *e_lock;e_lock50,2046
+	struct semaphore *e_sem;e_sem51,2068
+	void *e_iobuf;e_iobuf52,2094
+	uint32_t e_result;55,2151
+
+kern/dev/lamebus/emu_att.c,90
+#define LOW_VERSION 41,1825
+#define HIGH_VERSION 43,1883
+attach_emu_to_lamebus(46,1927
+
+kern/dev/lamebus/lamebus.c,952
+#define CFGREG_VID 42,1836
+#define CFGREG_DID 43,1878
+#define CFGREG_DRL 44,1920
+#define CTLREG_RAMSZ 47,2053
+#define CTLREG_IRQS 48,2083
+#define CTLREG_PWR 49,2113
+#define CTLREG_IRQE 50,2143
+#define CTLREG_CPUS 51,2173
+#define CTLREG_CPUE 52,2203
+#define CTLREG_SELF 53,2233
+#define CTLCPU_CIRQE	56,2337
+#define CTLCPU_CIPI	57,2364
+#define CTLCPU_CRAM	58,2390
+read_cfg_register(67,2494
+write_cfg_register(80,2806
+read_ctl_register(93,3073
+write_ctl_register(105,3342
+write_ctlcpu_register(116,3567
+lamebus_find_cpus(127,3846
+lamebus_start_cpus(184,5168
+lamebus_probe(228,6220
+lamebus_mark(284,7330
+lamebus_unmark(304,7712
+lamebus_attach_interrupt(325,8174
+lamebus_detach_interrupt(353,8819
+lamebus_mask_interrupt(377,9329
+lamebus_unmask_interrupt(390,9681
+lamebus_interrupt(407,10105
+lamebus_poweroff(556,13991
+lamebus_ramsize(573,14315
+lamebus_assert_ipi(589,14687
+lamebus_clear_ipi(596,14852
+lamebus_init(607,15105
+
+kern/dev/lamebus/lamebus.h,771
+#define _LAMEBUS_H_31,1636
+#define LB_VENDOR_CS161 44,1791
+#define LBCS161_BUSCTL 47,1843
+#define LBCS161_TIMER 48,1874
+#define LBCS161_DISK 49,1905
+#define LBCS161_SERIAL 50,1936
+#define LBCS161_SCREEN 51,1967
+#define LBCS161_NET 52,1998
+#define LBCS161_EMUFS 53,2029
+#define LBCS161_TRACE 54,2060
+#define LBCS161_RANDOM 55,2091
+#define LB_CONTROLLER_SLOT 58,2171
+#define LB_NSLOTS 61,2226
+#define LB_CONFIG_SIZE 64,2306
+#define LB_CTLCPU_SIZE 67,2388
+#define LB_CTLCPU_OFFSET 70,2485
+#define LB_SLOT_SIZE 73,2557
+typedef void (*lb_irqfunc)lb_irqfunc76,2647
+struct lamebus_softc 81,2713
+	struct spinlock ls_lock;82,2736
+	uint32_t     ls_slotsinuse;85,2823
+	void        *ls_devdata[ls_devdata86,2852
+	lb_irqfunc   ls_irqfuncs[ls_irqfuncs87,2889
+
+kern/dev/lamebus/lhd.c,581
+#define LHD_REG_NSECT 45,1884
+#define LHD_REG_STAT 46,1936
+#define LHD_REG_SECT 47,1977
+#define LHD_REG_RPM 48,2026
+#define LHD_IDLE 51,2118
+#define LHD_WORKING 52,2164
+#define LHD_OK 53,2220
+#define LHD_INVSECT 54,2274
+#define LHD_MEDIA 55,2333
+#define LHD_ISWRITE 56,2379
+#define LHD_STATEMASK 57,2443
+#define LHD_BUFFER 60,2548
+uint32_t lhd_rdreg(67,2636
+void lhd_wreg(77,2816
+int lhd_code_to_errno(86,3023
+lhd_iodone(103,3407
+lhd_irq(115,3642
+lhd_open(140,4045
+lhd_close(156,4232
+lhd_ioctl(171,4378
+lhd_reset(190,4663
+lhd_io(201,4801
+config_lhd(282,6647
+
+kern/dev/lamebus/lhd.h,352
+#define _LAMEBUS_LHD_H_31,1640
+#define LHD_SECTSIZE 38,1712
+struct lhd_softc 43,1810
+	void *lh_busdata;lh_busdata45,1875
+	uint32_t lh_buspos;46,1919
+	int lh_unit;47,1968
+	void *lh_buf;lh_buf53,2055
+	int lh_result;54,2108
+	struct semaphore *lh_clear;lh_clear55,2158
+	struct semaphore *lh_done;lh_done56,2209
+	struct device lh_dev;58,2238
+
+kern/dev/lamebus/lhd_att.c,90
+#define LOW_VERSION 40,1813
+#define HIGH_VERSION 42,1871
+attach_lhd_to_lamebus(45,1915
+
+kern/dev/lamebus/lnet.c,21
+config_lnet(37,1747
+
+kern/dev/lamebus/lnet_att.c,91
+#define LOW_VERSION 36,1737
+#define HIGH_VERSION 38,1795
+attach_lnet_to_lamebus(41,1840
+
+kern/dev/lamebus/lrandom.c,152
+#define LR_REG_RAND 41,1836
+#define LR_RANDMAX 44,1903
+config_lrandom(47,1939
+lrandom_random(55,2049
+lrandom_randmax(62,2197
+lrandom_read(69,2273
+
+kern/dev/lamebus/lrandom.h,125
+#define _LAMEBUS_LRANDOM_H_31,1644
+struct lrandom_softc 35,1686
+	void *lr_bus;lr_bus37,1758
+	uint32_t lr_buspos;38,1773
+
+kern/dev/lamebus/lrandom_att.c,94
+#define LOW_VERSION 37,1766
+#define HIGH_VERSION 39,1824
+attach_lrandom_to_lamebus(42,1872
+
+kern/dev/lamebus/lscreen.c,372
+#define LSCR_REG_POSN 44,1964
+#define LSCR_REG_SIZE 45,2015
+#define LSCR_REG_CHAR 46,2063
+#define LSCR_REG_RIRQ 47,2111
+#define LSCR_IRQ_ENABLE 50,2201
+#define LSCR_IRQ_ACTIVE 51,2228
+#define LSCR_SCREEN 54,2298
+splitxy(60,2406
+mergexy(70,2576
+lscreen_irq(83,2754
+lscreen_newline(114,3402
+lscreen_char(137,3807
+lscreen_write(152,4092
+config_lscreen(188,4866
+
+kern/dev/lamebus/lscreen.h,435
+#define _LAMEBUS_LSCREEN_H_31,1644
+struct lscreen_softc 36,1747
+	struct spinlock ls_lock;38,1808
+	unsigned ls_width,39,1872
+	unsigned ls_width, ls_height;39,1872
+	unsigned ls_cx,40,1918
+	unsigned ls_cx, ls_cy;40,1918
+	char *ls_screen;ls_screen41,1968
+	void *ls_busdata;ls_busdata44,2085
+	uint32_t ls_buspos;45,2121
+	void *ls_devdata;ls_devdata48,2223
+	void (*ls_start)ls_start49,2270
+	void (*ls_input)ls_input50,2329
+
+kern/dev/lamebus/lscreen_att.c,94
+#define LOW_VERSION 40,1821
+#define HIGH_VERSION 42,1879
+attach_lscreen_to_lamebus(45,1927
+
+kern/dev/lamebus/lser.c,332
+#define LSER_REG_CHAR 38,1787
+#define LSER_REG_WIRQ 39,1839
+#define LSER_REG_RIRQ 40,1897
+#define LSER_IRQ_ENABLE 43,1987
+#define LSER_IRQ_ACTIVE 44,2014
+lser_irq(47,2047
+lser_write(87,2983
+lser_poll_until_write(116,3626
+lser_writepolled(130,3868
+lser_startpolling(170,4885
+lser_endpolling(177,5008
+config_lser(184,5130
+
+kern/dev/lamebus/lser.h,408
+#define _LAMEBUS_LSER_H_31,1641
+struct lser_softc 35,1690
+	struct spinlock ls_lock;37,1748
+	volatile bool ls_wbusy;38,1817
+	void *ls_busdata;ls_busdata41,1933
+	uint32_t ls_buspos;42,1952
+	void (*ls_maskinterrupt)ls_maskinterrupt43,1973
+	void (*ls_unmaskinterrupt)ls_unmaskinterrupt44,2032
+	void *ls_devdata;ls_devdata47,2149
+	void (*ls_start)ls_start48,2168
+	void (*ls_input)ls_input49,2202
+
+kern/dev/lamebus/lser_att.c,163
+#define LOW_VERSION 37,1763
+#define HIGH_VERSION 39,1821
+do_lamebus_mask_interrupt(46,1904
+do_lamebus_unmask_interrupt(54,2045
+attach_lser_to_lamebus(64,2228
+
+kern/dev/lamebus/ltimer.c,299
+#define LT_REG_SEC 42,1849
+#define LT_REG_NSEC 43,1904
+#define LT_REG_ROE 44,1963
+#define LT_REG_IRQ 45,2036
+#define LT_REG_COUNT 46,2096
+#define LT_REG_SPKR 47,2162
+static bool havetimerclock;49,2210
+config_ltimer(55,2317
+ltimer_irq(105,3863
+ltimer_beep(134,4467
+ltimer_gettime(147,4740
+
+kern/dev/lamebus/ltimer.h,210
+#define _LAMEBUS_LTIMER_H_31,1643
+struct ltimer_softc 36,1727
+	int lt_hardclock;38,1787
+	int lt_timerclock;39,1854
+	void *lt_bus;lt_bus42,1973
+	uint32_t lt_buspos;43,2008
+#define LT_GRANULARITY 49,2147
+
+kern/dev/lamebus/ltimer_att.c,93
+#define LOW_VERSION 40,1824
+#define HIGH_VERSION 42,1882
+attach_ltimer_to_lamebus(45,1929
+
+kern/dev/lamebus/ltrace.c,296
+#define LTRACE_REG_TRON 37,1767
+#define LTRACE_REG_TROFF 38,1796
+#define LTRACE_REG_DEBUG 39,1825
+#define LTRACE_REG_DUMP 40,1854
+static struct ltrace_softc *the_trace;the_trace42,1885
+ltrace_on(45,1930
+ltrace_off(54,2091
+ltrace_debug(63,2254
+ltrace_dump(72,2419
+config_ltrace(81,2581
+
+kern/dev/lamebus/ltrace.h,131
+#define _LAMEBUS_LTRACE_H_31,1643
+struct ltrace_softc 33,1671
+	void *lt_busdata;lt_busdata35,1747
+	uint32_t lt_buspos;36,1766
+
+kern/dev/lamebus/ltrace_att.c,93
+#define LOW_VERSION 37,1765
+#define HIGH_VERSION 39,1823
+attach_ltrace_to_lamebus(42,1870
+
+kern/dev/lamebus/random_lrandom.c,34
+attach_random_to_lrandom(42,1852
+
+kern/dev/lamebus/rtclock_ltimer.c,34
+attach_rtclock_to_ltimer(48,2173
+
+kern/fs/sfs/sfs_fs.c,197
+#define SFS_FS_BITMAPSIZE(47,1906
+#define SFS_FS_BITBLOCKS(48,1982
+sfs_mapio(70,2896
+sfs_sync(111,3719
+sfs_getvolname(189,6094
+sfs_unmount(208,6380
+sfs_domount(255,7577
+sfs_mount(373,10400
+
+kern/fs/sfs/sfs_io.c,62
+sfs_rwblock(48,2036
+sfs_rblock(90,2967
+sfs_wblock(100,3145
+
+kern/fs/sfs/sfs_vnode.c,1145
+sfs_clearblock(59,2162
+sfs_sync_inode(69,2411
+sfs_balloc(91,2777
+sfs_bfree(114,3192
+sfs_bused(125,3372
+sfs_bmap(146,3945
+sfs_partialio(308,7804
+sfs_blockio(383,9368
+sfs_io(448,10864
+sfs_readdir(554,13156
+sfs_writedir(588,13859
+sfs_dir_nentries(624,14625
+sfs_dir_findname(647,15114
+sfs_dir_link(697,16151
+sfs_dir_unlink(741,17026
+sfs_lookonce(759,17368
+sfs_makeobj(794,18040
+sfs_open(825,18552
+sfs_opendir(850,19028
+sfs_close(876,19448
+sfs_reclaim(889,19680
+sfs_read(967,21292
+sfs_write(986,21581
+sfs_ioctl(1005,21847
+sfs_stat(1023,22029
+sfs_gettype(1052,22575
+sfs_tryseek(1082,23306
+sfs_fsync(1100,23548
+sfs_mmap(1117,23765
+sfs_truncate(1128,23916
+sfs_namefile(1235,26457
+sfs_creat(1253,26810
+sfs_link(1326,28343
+sfs_remove(1356,28882
+sfs_rename(1396,29718
+sfs_lookparent(1484,31770
+sfs_lookup(1517,32343
+sfs_notdir(1546,32829
+sfs_isdir(1553,32879
+sfs_unimp(1560,32927
+#define ISDIR 1571,33133
+#define NOTDIR 1572,33167
+#define UNIMP 1573,33203
+static const struct vnode_ops sfs_fileops 1578,33278
+static const struct vnode_ops sfs_dirops 1613,33866
+sfs_loadvnode(1651,34501
+sfs_getroot(1764,36944
+
+kern/include/addrspace.h,263
+#define _ADDRSPACE_H_31,1638
+struct addrspace 50,1869
+  vaddr_t as_vbase1;51,1888
+  paddr_t as_pbase1;52,1909
+  size_t as_npages1;53,1930
+  vaddr_t as_vbase2;54,1951
+  paddr_t as_pbase2;55,1972
+  size_t as_npages2;56,1993
+  paddr_t as_stackpbase;57,2014
+
+kern/include/array.h,440
+#define _ARRAY_H_31,1511
+#define ARRAYS_CHECKED37,1565
+#define ARRAYASSERT 40,1611
+#define ARRAYASSERT(42,1645
+struct array 65,2527
+	void **v;v66,2542
+	unsigned num,67,2553
+	unsigned num, max;67,2553
+#define ARRAYINLINE 86,3102
+array_num(90,3158
+array_get(96,3231
+array_set(103,3353
+array_add(110,3484
+#define DECLARRAY_BYTYPE(166,4942
+#define DEFARRAY_BYTYPE(182,5564
+#define DECLARRAY(249,7089
+#define DEFARRAY(250,7147
+
+kern/include/bitmap.h,27
+#define _BITMAP_H_31,1599
+
+kern/include/cdefs.h,177
+#define _CDEFS_H_31,1610
+#define COMPILE_ASSERT(42,1846
+#define __PF(49,1988
+#define __PF(51,2058
+#define INLINE 116,5057
+#define INLINE 120,5152
+#define INLINE 124,5227
+
+kern/include/clock.h,66
+#define _CLOCK_H_31,1634
+#define HZ 53,2234
+#define HZ 56,2285
+
+kern/include/copyinout.h,30
+#define _COPYINOUT_H_31,1638
+
+kern/include/cpu.h,678
+#define _CPU_H_31,1590
+struct cpu 49,1998
+	struct cpu *c_self;c_self53,2048
+	unsigned c_number;54,2109
+	unsigned c_hardware_number;55,2158
+	struct thread *c_curthread;c_curthread60,2262
+	struct threadlist c_zombies;61,2319
+	unsigned c_hardclocks;62,2378
+	bool c_isidle;68,2512
+	struct threadlist c_runqueue;69,2561
+	struct spinlock c_runqueue_lock;70,2621
+	uint32_t c_ipi_pending;86,3172
+	struct tlbshootdown c_shootdown[c_shootdown87,3232
+	int c_numshootdown;88,3284
+	struct spinlock c_ipi_lock;89,3305
+#define TLBSHOOTDOWN_ALL 92,3338
+#define IPI_PANIC	161,5555
+#define IPI_OFFLINE	162,5608
+#define IPI_UNIDLE	163,5668
+#define IPI_TLBSHOOTDOWN	164,5727
+
+kern/include/current.h,166
+#define _CURRENT_H_31,1594
+#define curthread 47,2024
+#define CURCPU_EXISTS(48,2062
+#define curcpu 55,2160
+#define CURCPU_EXISTS(56,2192
+#define curproc 66,2333
+
+kern/include/device.h,288
+#define _DEVICE_H_31,1635
+struct device 44,1828
+	int (*d_open)d_open45,1844
+	int (*d_close)d_close46,1898
+	int (*d_io)d_io47,1932
+	int (*d_ioctl)d_ioctl48,1977
+	blkcnt_t d_blocks;50,2036
+	blksize_t d_blocksize;51,2056
+	dev_t d_devnumber;53,2081
+	void *d_data;d_data55,2138
+
+kern/include/elf.h,3010
+#define _ELF_H_31,1632
+#define	ELF_NIDENT	50,2004
+	unsigned char	e_ident[e_ident52,2043
+	uint16_t	e_type;53,2107
+	uint16_t	e_machine;54,2167
+	uint32_t	e_version;55,2233
+	uint32_t	e_entry;56,2284
+	uint32_t	e_phoff;57,2350
+	uint32_t	e_shoff;58,2411
+	uint32_t	e_flags;59,2453
+	uint16_t	e_ehsize;60,2488
+	uint16_t	e_phentsize;61,2550
+	uint16_t	e_phnum;62,2605
+	uint16_t	e_shentsize;63,2656
+	uint16_t	e_shnum;64,2698
+	uint16_t	e_shstrndx;65,2740
+} Elf32_Ehdr;66,2782
+#define	EI_MAG0	69,2850
+#define	EI_MAG1	70,2882
+#define	EI_MAG2	71,2914
+#define	EI_MAG3	72,2946
+#define	EI_CLASS	73,2978
+#define	EI_DATA	74,3034
+#define	EI_VERSION	75,3101
+#define	EI_OSABI	76,3152
+#define	EI_ABIVERSION	77,3207
+#define	EI_PAD	78,3257
+#define	ELFMAG0	83,3381
+#define	ELFMAG1	84,3403
+#define	ELFMAG2	85,3424
+#define	ELFMAG3	86,3445
+#define	ELFCLASSNONE	89,3495
+#define	ELFCLASS32	90,3538
+#define	ELFCLASS64	91,3580
+#define	ELFDATANONE	94,3646
+#define	ELFDATA2LSB	95,3696
+#define	ELFDATA2MSB	96,3757
+#define	EV_NONE	99,3845
+#define	EV_CURRENT	100,3886
+#define	ELFOSABI_SYSV	103,3954
+#define	ELFOSABI_HPUX	104,4003
+#define	ELFOSABI_STANDALONE	105,4057
+#define	ET_NONE	111,4159
+#define	ET_REL	112,4197
+#define	ET_EXEC	113,4238
+#define	ET_DYN	114,4279
+#define	ET_CORE	115,4322
+#define	ET_NUM	116,4357
+#define	EM_NONE	121,4407
+#define	EM_M32	122,4443
+#define	EM_SPARC	123,4481
+#define	EM_386	124,4512
+#define	EM_68K	125,4548
+#define	EM_88K	126,4587
+#define	EM_486	127,4626
+#define	EM_860	128,4662
+#define	EM_MIPS	129,4698
+#define	EM_S370	130,4743
+#define	EM_MIPS_RS3_LE	131,4793
+#define	EM_RS6000	132,4851
+#define	EM_PARISC	133,4903
+#define	EM_NCUBE	134,4954
+#define	EM_VPP500	135,4999
+#define	EM_SPARC32PLUS	136,5041
+#define	EM_960	137,5104
+#define	EM_PPC	138,5141
+#define	EM_V800	139,5174
+#define	EM_FR20	140,5209
+#define	EM_RH32	141,5248
+#define	EM_RCE	142,5284
+#define	EM_ARM	143,5322
+#define	EM_ALPHA	144,5374
+#define	EM_SH	145,5414
+#define	EM_SPARCV9	146,5454
+#define	EM_TRICORE	147,5498
+#define	EM_ARC	148,5542
+#define	EM_H8_300	149,5586
+#define	EM_H8_300H	150,5628
+#define	EM_H8S	151,5672
+#define	EM_H8_500	152,5709
+#define	EM_IA_64	153,5751
+#define	EM_MIPS_X	154,5800
+#define	EM_COLDFIRE	155,5843
+#define	EM_68HC12	156,5890
+#define	EM_VAX	157,5935
+#define	EM_ALPHA_EXP	158,5972
+#define	EM_NUM	159,6036
+	uint32_t	p_type;169,6283
+	uint32_t	p_offset;170,6328
+	uint32_t	p_vaddr;171,6386
+	uint32_t	p_paddr;172,6431
+	uint32_t	p_filesz;173,6467
+	uint32_t	p_memsz;174,6521
+	uint32_t	p_flags;175,6587
+	uint32_t	p_align;176,6622
+} Elf32_Phdr;177,6683
+#define	PT_NULL	180,6722
+#define	PT_LOAD	181,6782
+#define	PT_DYNAMIC	182,6833
+#define	PT_INTERP	183,6889
+#define	PT_NOTE	184,6936
+#define	PT_SHLIB	185,6984
+#define	PT_PHDR	186,7042
+#define	PT_NUM	187,7098
+#define	PT_MIPS_REGINFO	188,7116
+#define	PF_R	191,7177
+#define	PF_W	192,7221
+#define	PF_X	193,7265
+typedef Elf32_Ehdr Elf_Ehdr;196,7313
+typedef Elf32_Phdr Elf_Phdr;197,7342
+
+kern/include/emufs.h,341
+#define _EMUFS_H_31,1634
+struct emufs_vnode 44,1761
+	struct vnode ev_v;45,1782
+	struct emu_softc *ev_emu;ev_emu46,1834
+	uint32_t ev_handle;47,1874
+struct emufs_fs 50,1918
+	struct fs ef_fs;51,1936
+	struct emu_softc *ef_emu;ef_emu52,1991
+	struct emufs_vnode *ef_root;ef_root53,2031
+	struct vnodearray *ef_vnodes;ef_vnodes54,2078
+
+kern/include/endian.h,27
+#define _ENDIAN_H_31,1593
+
+kern/include/fs.h,386
+#define _FS_H_31,1631
+struct fs 64,2784
+	int           (*fs_sync)fs_sync65,2796
+	const char   *(*fs_getvolname)fs_getvolname66,2836
+	struct vnode *(*fs_getroot)fs_getroot67,2882
+	int           (*fs_unmount)fs_unmount68,2925
+	void *fs_data;fs_data70,2969
+#define FSOP_SYNC(76,3040
+#define FSOP_GETVOLNAME(77,3089
+#define FSOP_GETROOT(78,3144
+#define FSOP_UNMOUNT(79,3196
+
+kern/include/kern/endian.h,122
+#define _KERN_ENDIAN_H_31,1598
+#define _LITTLE_ENDIAN 42,1835
+#define _BIG_ENDIAN 43,1863
+#define _PDP_ENDIAN 44,1891
+
+kern/include/kern/errmsg.h,112
+#define _KERN_ERRMSG_H_31,1634
+const char *const sys_errlist[sys_errlist41,1929
+const int sys_nerr 112,5085
+
+kern/include/kern/errno.h,1661
+#define _KERN_ERRNO_H_31,1633
+#define ENOSYS 45,2047
+#define EUNIMP 46,2104
+#define ENOMEM 47,2163
+#define EAGAIN 48,2214
+#define EINTR 49,2273
+#define EFAULT 50,2334
+#define ENAMETOOLONG 51,2392
+#define EINVAL 52,2445
+#define EPERM 53,2499
+#define EACCES 54,2560
+#define EMPROC 55,2615
+#define ENPROC 56,2671
+#define ENOEXEC 57,2737
+#define E2BIG 58,2797
+#define ESRCH 59,2857
+#define ECHILD 60,2910
+#define ENOTDIR 61,2966
+#define EISDIR 62,3019
+#define ENOENT 63,3071
+#define ELOOP 64,3134
+#define ENOTEMPTY 65,3205
+#define EEXIST 66,3262
+#define EMLINK 67,3321
+#define EXDEV 68,3378
+#define ENODEV 69,3433
+#define ENXIO 70,3485
+#define EBUSY 71,3543
+#define EMFILE 72,3604
+#define ENFILE 73,3661
+#define EBADF 74,3728
+#define EIOCTL 75,3781
+#define EIO 76,3849
+#define ESPIPE 77,3905
+#define EPIPE 78,3955
+#define EROFS 79,4004
+#define ENOSPC 80,4063
+#define EDQUOT 81,4124
+#define EFBIG 82,4181
+#define EFTYPE 83,4233
+#define EDOM 84,4298
+#define ERANGE 85,4357
+#define EILSEQ 86,4414
+#define ENOTSOCK 87,4488
+#define EISSOCK 88,4538
+#define EISCONN 89,4587
+#define ENOTCONN 90,4652
+#define ESHUTDOWN 91,4713
+#define EPFNOSUPPORT 92,4776
+#define ESOCKTNOSUPPORT 93,4843
+#define EPROTONOSUPPORT 94,4906
+#define EPROTOTYPE 95,4966
+#define EAFNOSUPPORT 96,5034
+#define ENOPROTOOPT 97,5114
+#define EADDRINUSE 98,5181
+#define EADDRNOTAVAIL 99,5241
+#define ENETDOWN 100,5310
+#define ENETUNREACH 101,5363
+#define EHOSTDOWN 102,5423
+#define EHOSTUNREACH 103,5473
+#define ECONNREFUSED 104,5530
+#define ETIMEDOUT 105,5586
+#define ECONNRESET 106,5644
+#define EMSGSIZE 107,5706
+#define ENOTSUP 108,5761
+
+kern/include/kern/fcntl.h,850
+#define _KERN_FCNTL_H_31,1633
+#define O_RDONLY 43,1765
+#define O_WRONLY 44,1814
+#define O_RDWR 45,1864
+#define O_CREAT 47,1954
+#define O_EXCL 48,2021
+#define O_TRUNC 49,2098
+#define O_APPEND 50,2157
+#define O_NOCTTY 51,2236
+#define O_ACCMODE 54,2350
+#define LOCK_SH 61,2482
+#define LOCK_EX 62,2532
+#define LOCK_UN 63,2585
+#define LOCK_NB 64,2640
+#define F_DUPFD 71,2755
+#define F_GETFD 72,2820
+#define F_SETFD 73,2879
+#define F_GETFL 74,2938
+#define F_SETFL 75,3012
+#define F_GETOWN 76,3086
+#define F_SETOWN 77,3164
+#define F_GETLK 78,3242
+#define F_SETLK 79,3301
+#define F_SETLKW 80,3372
+#define FD_CLOEXEC 83,3476
+#define F_RDLCK 86,3575
+#define F_WRLCK 87,3625
+#define F_UNLCK 88,3678
+struct flock 91,3771
+	off_t l_start;92,3786
+	int l_whence;93,3831
+	int l_type;94,3894
+	off_t l_len;95,3944
+	pid_t l_pid;96,3999
+
+kern/include/kern/ioctl.h,31
+#define _KERN_IOCTL_H_31,1639
+
+kern/include/kern/iovec.h,221
+#define _KERN_IOVEC_H_31,1639
+struct iovec 38,1812
+                userptr_t  iov_ubase;59,2558
+                void      *iov_kbase;iov_kbase60,2624
+	void *iov_base;iov_base63,2709
+        size_t iov_len;65,2763
+
+kern/include/kern/limits.h,317
+#define _KERN_LIMITS_H_31,1634
+#define __NAME_MAX 52,2302
+#define __PATH_MAX 55,2360
+#define __ARG_MAX 58,2427
+#define __PID_MIN 66,2612
+#define __PID_MAX 69,2672
+#define __PIPE_BUF 72,2781
+#define __NGROUPS_MAX 80,2923
+#define __LOGIN_NAME_MAX 83,3013
+#define __OPEN_MAX 94,3229
+#define __IOV_MAX 97,3335
+
+kern/include/kern/reboot.h,113
+#define _KERN_REBOOT_H_31,1634
+#define RB_REBOOT 40,1789
+#define RB_HALT 41,1838
+#define RB_POWEROFF 42,1903
+
+kern/include/kern/resource.h,1174
+#define _KERN_RESOURCE_H_31,1606
+#define PRIO_MIN	41,1749
+#define PRIO_MAX	42,1772
+#define PRIO_PROCESS	45,1831
+#define PRIO_PGRP	46,1854
+#define PRIO_USER	47,1874
+#define RUSAGE_SELF	50,1923
+#define RUSAGE_CHILDREN	51,1945
+struct rusage 53,1975
+	struct timeval ru_utime;54,1991
+	struct timeval ru_stime;55,2017
+	__size_t ru_maxrss;56,2043
+	__counter_t ru_ixrss;57,2104
+	__counter_t ru_idrss;58,2163
+	__counter_t ru_isrss;59,2222
+	__counter_t ru_minflt;60,2282
+	__counter_t ru_majflt;61,2337
+	__counter_t ru_nswap;62,2392
+	__counter_t ru_inblock;63,2450
+	__counter_t ru_oublock;64,2507
+	__counter_t ru_msgrcv;65,2567
+	__counter_t ru_msgsnd;66,2632
+	__counter_t ru_nsignals;67,2696
+	__counter_t ru_nvcsw;68,2754
+	__counter_t ru_nivcsw;69,2818
+#define RLIMIT_NPROC	74,2922
+#define RLIMIT_NOFILE	75,2979
+#define RLIMIT_CPU	76,3042
+#define RLIMIT_DATA	77,3090
+#define RLIMIT_STACK	78,3147
+#define RLIMIT_MEMLOCK	79,3200
+#define RLIMIT_RSS	80,3265
+#define RLIMIT_CORE	81,3309
+#define RLIMIT_FSIZE	82,3361
+#define __RLIMIT_NUM	83,3413
+struct rlimit 85,3461
+	__rlim_t rlim_cur;86,3477
+	__rlim_t rlim_max;87,3514
+#define RLIM_INFINITY	90,3555
+
+kern/include/kern/seek.h,108
+#define _KERN_SEEK_H_31,1632
+#define SEEK_SET 42,1941
+#define SEEK_CUR 43,2011
+#define SEEK_END 44,2088
+
+kern/include/kern/sfs.h,1023
+#define _KERN_SFS_H_31,1637
+#define SFS_MAGIC 39,1805
+#define SFS_BLOCKSIZE 40,1879
+#define SFS_VOLNAME_SIZE 41,1944
+#define SFS_NDIRECT 42,2016
+#define SFS_DBPERIDB 43,2090
+#define SFS_NAMELEN 44,2167
+#define SFS_SB_LOCATION 45,2236
+#define SFS_ROOT_LOCATION 46,2312
+#define SFS_MAP_LOCATION 47,2386
+#define SFS_NOINO 48,2457
+#define SFS_BLOCKBITS 51,2563
+#define SFS_ROUNDUP(54,2633
+#define SFS_BITMAPSIZE(57,2718
+#define SFS_BITBLOCKS(60,2820
+#define SFS_TYPE_INVAL 63,2923
+#define SFS_TYPE_FILE 64,2989
+#define SFS_TYPE_DIR 65,3017
+struct sfs_super 70,3075
+	uint32_t sp_magic;71,3094
+	uint32_t sp_nblocks;72,3155
+	char sp_volname[sp_volname73,3208
+	uint32_t reserved[reserved74,3270
+struct sfs_inode 80,3323
+	uint32_t sfi_size;81,3342
+	uint16_t sfi_type;82,3396
+	uint16_t sfi_linkcount;83,3448
+	uint32_t sfi_direct[sfi_direct84,3507
+	uint32_t sfi_indirect;85,3562
+	uint32_t sfi_waste[sfi_waste86,3609
+struct sfs_dir 92,3716
+	uint32_t sfd_ino;93,3733
+	char sfd_name[sfd_name94,3773
+
+kern/include/kern/signal.h,1379
+#define _KERN_SIGNAL_H_38,1983
+#define SIGHUP	56,2339
+#define SIGINT	57,2370
+#define SIGQUIT	58,2409
+#define SIGILL	59,2454
+#define SIGTRAP	60,2498
+#define SIGABRT	61,2539
+#define SIGEMT	62,2577
+#define SIGFPE	63,2615
+#define SIGKILL	64,2664
+#define SIGBUS	65,2713
+#define SIGSEGV	66,2780
+#define SIGSYS	67,2825
+#define SIGPIPE	68,2866
+#define SIGALRM	69,2904
+#define SIGTERM	70,2946
+#define SIGURG	71,3009
+#define SIGSTOP	72,3056
+#define SIGTSTP	73,3114
+#define SIGCONT	74,3159
+#define SIGCHLD	75,3213
+#define SIGTTIN	76,3260
+#define SIGTTOU	77,3323
+#define SIGIO	78,3387
+#define SIGXCPU	79,3449
+#define SIGXFSZ	80,3508
+#define SIGVTALRM	81,3568
+#define SIGPROF	82,3628
+#define SIGWINCH	83,3670
+#define SIGINFO	84,3722
+#define SIGUSR1	85,3783
+#define SIGUSR2	86,3829
+#define SIGPWR	87,3875
+#define _NSIG	88,3914
+typedef __u32 sigset_t;92,3995
+#define SA_ONSTACK	95,4055
+#define SA_RESTART	96,4107
+#define SA_RESETHAND	97,4175
+#define SIG_BLOCK	100,4266
+#define SIG_UNBLOCK	101,4316
+#define SIG_SETMASK	102,4370
+typedef void (*__sigfunc)__sigfunc105,4475
+#define SIG_DFL	108,4548
+#define SIG_IGN	109,4606
+struct sigaction 114,4700
+	__sigfunc sa_handler;115,4719
+	sigset_t sa_mask;116,4742
+	unsigned sa_flags;117,4761
+struct sigaltstack 124,4845
+	void *ss_sp;ss_sp125,4866
+	size_t ss_size;126,4880
+	unsigned ss_flags;127,4897
+
+kern/include/kern/socket.h,1019
+#define _KERN_SOCKET_H_31,1604
+#define SOCK_STREAM	43,1754
+#define SOCK_DGRAM	44,1789
+#define SOCK_RAW	45,1823
+#define AF_UNSPEC	48,1908
+#define AF_UNIX	49,1928
+#define AF_INET	50,1947
+#define AF_INET6	51,1966
+#define PF_UNSPEC	54,2063
+#define PF_UNIX	55,2091
+#define PF_INET	56,2116
+#define PF_INET6	57,2141
+struct sockaddr 73,2714
+   __u8	sa_len;74,2732
+   __u8 sa_family;75,2748
+#define _SS_SIZE	78,2771
+struct sockaddr_storage 79,2792
+   __u8 ss_len;80,2818
+   __u8 ss_family;81,2834
+   __u8 __ss_pad1;82,2853
+   __u8 __ss_pad2;83,2872
+   __u32 __ss_pad3;84,2891
+   __u64 __ss_pad4;85,2911
+   char __ss_pad5[__ss_pad586,2931
+struct msghdr 98,3103
+	void *msg_name;msg_name99,3119
+	socklen_t msg_namelen;100,3177
+	struct iovec *msg_iov;msg_iov101,3237
+	int msg_iovlen;102,3279
+	void *msg_control;msg_control103,3320
+	socklen_t msg_controllen;104,3375
+	int msg_flags;105,3433
+struct cmsghdr 108,3466
+	socklen_t cmsg_len;109,3483
+	int cmsg_level;110,3551
+	int cmsg_type;111,3611
+
+kern/include/kern/stat.h,491
+#define _KERN_STAT_H_31,1632
+struct stat 42,1886
+	off_t st_size;44,1924
+	mode_t st_mode;45,1966
+	nlink_t st_nlink;46,2020
+	blkcnt_t st_blocks;47,2066
+	dev_t st_dev;50,2142
+	ino_t st_ino;51,2196
+	dev_t st_rdev;52,2266
+	time_t st_atime;55,2347
+	time_t st_ctime;56,2404
+	time_t st_mtime;57,2462
+	__u32 st_atimensec;58,2520
+	__u32 st_ctimensec;59,2581
+	__u32 st_mtimensec;60,2643
+	uid_t st_uid;63,2740
+	gid_t st_gid;64,2777
+	__u32 st_gen;67,2828
+	blksize_t st_blksize;68,2894
+
+kern/include/kern/stattypes.h,243
+#define _KERN_STATTYPES_H_31,1637
+#define _S_IFMT 45,2045
+#define _S_IFREG 46,2098
+#define _S_IFDIR 47,2151
+#define _S_IFLNK 48,2192
+#define _S_IFIFO 49,2237
+#define _S_IFSOCK 50,2287
+#define _S_IFCHR 51,2325
+#define _S_IFBLK 52,2373
+
+kern/include/kern/syscall.h,2546
+#define _KERN_SYSCALL_H_31,1635
+#define SYS_fork 50,2283
+#define SYS_vfork 51,2310
+#define SYS_execv 52,2337
+#define SYS__exit 53,2364
+#define SYS_waitpid 54,2391
+#define SYS_getpid 55,2418
+#define SYS_getppid 56,2445
+#define SYS_sbrk 58,2521
+#define SYS_mmap 59,2548
+#define SYS_munmap 60,2575
+#define SYS_mprotect 61,2602
+#define SYS_umask 69,2853
+#define SYS_issetugid 70,2881
+#define SYS_getresuid 71,2909
+#define SYS_setresuid 72,2937
+#define SYS_getresgid 73,2965
+#define SYS_setresgid 74,2993
+#define SYS_getgroups 75,3021
+#define SYS_setgroups 76,3049
+#define SYS___getlogin 77,3077
+#define SYS___setlogin 78,3105
+#define SYS_kill 80,3175
+#define SYS_sigaction 81,3203
+#define SYS_sigpending 82,3231
+#define SYS_sigprocmask 83,3259
+#define SYS_sigsuspend 84,3287
+#define SYS_sigreturn 85,3315
+#define SYS_open 105,4042
+#define SYS_pipe 106,4070
+#define SYS_dup 107,4098
+#define SYS_dup2 108,4126
+#define SYS_close 109,4154
+#define SYS_read 110,4182
+#define SYS_pread 111,4210
+#define SYS_getdirentry 114,4294
+#define SYS_write 115,4322
+#define SYS_pwrite 116,4350
+#define SYS_lseek 119,4434
+#define SYS_flock 120,4462
+#define SYS_ftruncate 121,4490
+#define SYS_fsync 122,4518
+#define SYS_fcntl 123,4546
+#define SYS_ioctl 124,4574
+#define SYS_select 125,4602
+#define SYS_poll 126,4630
+#define SYS_link 129,4714
+#define SYS_remove 130,4742
+#define SYS_mkdir 131,4770
+#define SYS_rmdir 132,4798
+#define SYS_mkfifo 133,4826
+#define SYS_rename 134,4854
+#define SYS_access 135,4882
+#define SYS_chdir 137,4962
+#define SYS_fchdir 138,4990
+#define SYS___getcwd 139,5018
+#define SYS_symlink 141,5095
+#define SYS_readlink 142,5123
+#define SYS_mount 144,5191
+#define SYS_unmount 145,5219
+#define SYS_stat 149,5304
+#define SYS_fstat 150,5332
+#define SYS_lstat 151,5360
+#define SYS_utimes 153,5433
+#define SYS_futimes 154,5461
+#define SYS_lutimes 155,5489
+#define SYS_chmod 157,5572
+#define SYS_chown 158,5600
+#define SYS_fchmod 159,5628
+#define SYS_fchown 160,5656
+#define SYS_lchmod 161,5684
+#define SYS_lchown 162,5712
+#define SYS_socket 172,6061
+#define SYS_bind 173,6089
+#define SYS_connect 174,6117
+#define SYS_listen 175,6146
+#define SYS_accept 176,6175
+#define SYS_shutdown 178,6233
+#define SYS_getsockname 179,6262
+#define SYS_getpeername 180,6291
+#define SYS_getsockopt 181,6320
+#define SYS_setsockopt 182,6349
+#define SYS___time 189,6546
+#define SYS___settime 190,6575
+#define SYS_nanosleep 191,6604
+#define SYS_sync 196,6736
+#define SYS_reboot 197,6765
+
+kern/include/kern/time.h,401
+#define _KERN_TIME_H_31,1602
+struct timeval 43,1815
+        __time_t tv_sec;44,1832
+        __i32 tv_usec;45,1878
+struct timespec 48,1933
+        __time_t tv_sec;49,1951
+        __i32 tv_nsec;50,1997
+#define ITIMER_REAL	59,2163
+#define ITIMER_VIRTUAL	60,2215
+#define ITIMER_PROF	61,2288
+struct itimerval 64,2382
+        struct timeval it_interval;65,2401
+	struct timeval it_value;66,2472
+
+kern/include/kern/types.h,729
+#define _KERN_TYPES_H_31,1633
+typedef __u32 __blkcnt_t;64,3089
+typedef __u32 __blksize_t;65,3138
+typedef __u64 __counter_t;66,3192
+typedef __u32 __daddr_t;67,3239
+typedef __u32 __dev_t;68,3290
+typedef __u32 __fsid_t;69,3342
+typedef __i32 __gid_t;70,3389
+typedef __u32 __in_addr_t;71,3431
+typedef __u32 __in_port_t;72,3481
+typedef __u32 __ino_t;73,3535
+typedef __u32 __mode_t;74,3581
+typedef __u16 __nlink_t;75,3631
+typedef __i64 __off_t;76,3709
+typedef __i32 __pid_t;77,3761
+typedef __u64 __rlim_t;78,3805
+typedef __u8 __sa_family_t;79,3862
+typedef __i64 __time_t;80,3917
+typedef __i32 __uid_t;81,3966
+typedef int __nfds_t;83,4008
+typedef int __socklen_t;84,4062
+typedef __builtin_va_list __va_list;88,4163
+
+kern/include/kern/unistd.h,124
+#define _KERN_UNISTD_H_31,1634
+#define STDIN_FILENO 34,1716
+#define STDOUT_FILENO 35,1766
+#define STDERR_FILENO 36,1817
+
+kern/include/kern/wait.h,630
+#define _KERN_WAIT_H_31,1602
+#define WNOHANG 39,1703
+#define WUNTRACED 40,1745
+#define WAIT_ANY 43,1855
+#define WAIT_MYPGRP 44,1906
+#define _WWHAT(54,2232
+#define _WVAL(55,2298
+#define _MKWVAL(56,2354
+#define __WEXITED 59,2436
+#define __WSIGNALED 60,2501
+#define __WCORED 61,2564
+#define __WSTOPPED 62,2633
+#define WIFEXITED(65,2740
+#define WIFSIGNALED(66,2786
+#define WIFSTOPPED(67,2857
+#define WEXITSTATUS(68,2904
+#define WTERMSIG(69,2938
+#define WSTOPSIG(70,2972
+#define WCOREDUMP(71,3006
+#define _MKWAIT_EXIT(74,3123
+#define _MKWAIT_SIG(75,3170
+#define _MKWAIT_CORE(76,3219
+#define _MKWAIT_STOP(77,3265
+
+kern/include/lib.h,606
+#define _LIB_H_31,1632
+#define KASSERT(63,2502
+#define KASSERT(65,2545
+#define DEBUGASSERT(70,2675
+#define DEBUGASSERT(72,2722
+#define DB_LOCORE 79,2859
+#define DB_SYSCALL 80,2889
+#define DB_INTERRUPT 81,2919
+#define DB_DEVICE 82,2949
+#define DB_THREADS 83,2979
+#define DB_VM 84,3009
+#define DB_EXEC 85,3039
+#define DB_VFS 86,3069
+#define DB_SFS 87,3099
+#define DB_NET 88,3129
+#define DB_NETFS 89,3159
+#define DB_KMALLOC 90,3189
+#define DB_SYNCPROB 91,3219
+#define DEBUG(111,3847
+#define RANDOM_MAX 118,4042
+int snprintf(150,4977
+#define DIVROUNDUP(192,6148
+#define ROUNDUP(193,6190
+
+kern/include/limits.h,292
+#define _LIMITS_H_31,1629
+#define NAME_MAX 41,1809
+#define PATH_MAX 42,1844
+#define ARG_MAX 43,1879
+#define PID_MIN 44,1913
+#define PID_MAX 45,1947
+#define PIPE_BUF 46,1981
+#define NGROUPS_MAX 47,2016
+#define LOGIN_NAME_MAX 48,2054
+#define OPEN_MAX 49,2095
+#define IOV_MAX 50,2130
+
+kern/include/mainbus.h,28
+#define _MAINBUS_H_31,1636
+
+kern/include/proc.h,277
+#define _PROC_H_31,1591
+struct proc 51,1876
+	char *p_name;p_name52,1890
+	struct spinlock p_lock;53,1934
+	struct threadarray p_threads;54,1990
+	struct addrspace *p_addrspace;p_addrspace57,2062
+	struct vnode *p_cwd;p_cwd60,2134
+  struct vnode *console;console68,2509
+
+kern/include/queue.h,23
+#define _QUEUE_H_2,18
+
+kern/include/setjmp.h,27
+#define _SETJMP_H_31,1635
+
+kern/include/sfs.h,483
+#define _SFS_H_31,1632
+struct sfs_vnode 51,1933
+	struct vnode sv_v;52,1952
+	struct sfs_inode sv_i;53,2016
+	uint32_t sv_ino;54,2061
+	bool sv_dirty;55,2113
+struct sfs_fs 58,2178
+	struct fs sfs_absfs;59,2194
+	struct sfs_super sfs_super;60,2263
+	bool sfs_superdirty;61,2317
+	struct device *sfs_device;sfs_device62,2384
+	struct vnodearray *sfs_vnodes;sfs_vnodes63,2441
+	struct bitmap *sfs_freemap;sfs_freemap64,2506
+	bool sfs_freemapdirty;65,2572
+#define SFSUIO(79,2794
+
+kern/include/signal.h,27
+#define _SIGNAL_H_31,1599
+
+kern/include/spinlock.h,210
+#define _SPINLOCK_H_31,1637
+#define SPINLOCK_INLINE 42,1925
+struct spinlock 57,2325
+	volatile spinlock_data_t lk_lock;58,2343
+	struct cpu *lk_holder;lk_holder59,2415
+#define SPINLOCK_INITIALIZER	65,2552
+
+kern/include/spl.h,136
+#define _SPL_H_31,1632
+#define IPL_NONE 72,2795
+#define IPL_HIGH 73,2816
+#define SPL_INLINE 91,3370
+spl0(96,3419
+splhigh(103,3474
+
+kern/include/stat.h,225
+#define _STAT_H_31,1591
+#define S_IFMT 40,1804
+#define S_IFREG 41,1829
+#define S_IFDIR 42,1855
+#define S_IFLNK 43,1881
+#define S_IFIFO 44,1907
+#define S_IFSOCK 45,1933
+#define S_IFCHR 46,1960
+#define S_IFBLK 47,1986
+
+kern/include/stdarg.h,184
+#define _STDARG_H_31,1635
+typedef __va_list va_list;44,1889
+#define va_start(46,1917
+#define va_arg(47,1976
+#define va_copy(48,2027
+#define va_end(49,2082
+void vkprintf(59,2454
+
+kern/include/synch.h,502
+#define _SYNCH_H_31,1634
+struct semaphore 45,1855
+        char *sem_name;sem_name46,1874
+	struct wchan *sem_wchan;sem_wchan47,1898
+	struct spinlock sem_lock;48,1924
+        volatile int sem_count;49,1951
+struct lock 74,2638
+        char *lk_name;lk_name75,2652
+	struct spinlock spin;76,2675
+	volatile char *owner;owner77,2699
+	struct wchan *wchan;wchan78,2722
+	volatile bool held;79,2744
+struct cv 115,3791
+        char *cv_name;cv_name116,3803
+	struct wchan *wchan;wchan117,3826
+
+kern/include/synchprobs.h,159
+#define _SYNCHPROBS_H_2,23
+enum Directions5,104
+    north 7,125
+    east 8,140
+    south 9,154
+    west 10,169
+typedef enum Directions Direction;12,187
+
+kern/include/syscall.h,28
+#define _SYSCALL_H_31,1636
+
+kern/include/test.h,25
+#define _TEST_H_31,1633
+
+kern/include/thread.h,695
+#define _THREAD_H_31,1635
+#define STACK_SIZE 50,1929
+#define STACK_MASK 53,2029
+#define SAME_STACK(56,2143
+	S_RUN,61,2269
+	S_READY,62,2292
+	S_SLEEP,63,2321
+	S_ZOMBIE,64,2346
+} threadstate_t;65,2398
+struct thread 68,2440
+	char *t_name;t_name73,2552
+	const char *t_wchan_name;t_wchan_name74,2595
+	threadstate_t t_state;75,2662
+	struct thread_machdep t_machdep;80,2765
+	struct threadlistnode t_listnode;81,2831
+	void *t_stack;t_stack82,2904
+	struct switchframe *t_context;t_context83,2947
+	struct cpu *t_cpu;t_cpu84,3019
+	struct proc *t_proc;t_proc85,3065
+	bool t_in_interrupt;100,3575
+	int t_curspl;101,3628
+	int t_iplhigh_count;102,3672
+#define THREADINLINE 115,3845
+
+kern/include/threadlist.h,416
+#define _THREADLIST_H_31,1597
+struct threadlistnode 53,2308
+	struct threadlistnode *tln_prev;tln_prev54,2332
+	struct threadlistnode *tln_next;tln_next55,2366
+	struct thread *tln_self;tln_self56,2400
+struct threadlist 59,2430
+	struct threadlistnode tl_head;60,2450
+	struct threadlistnode tl_tail;61,2482
+	unsigned tl_count;62,2514
+#define THREADLIST_FORALL(90,3664
+#define THREADLIST_FORALL_REV(95,3867
+
+kern/include/threadprivate.h,34
+#define _THREADPRIVATE_H_31,1642
+
+kern/include/types.h,1466
+#define _TYPES_H_31,1634
+struct __userptr 90,3859
+struct __userptr { char _dummy;90,3859
+typedef struct __userptr *userptr_t;userptr_t91,3894
+typedef const struct __userptr *const_userptr_t;const_userptr_t92,3931
+typedef __i8 int8_t;100,4124
+typedef __i16 int16_t;101,4145
+typedef __i32 int32_t;102,4168
+typedef __i64 int64_t;103,4191
+typedef __u8 uint8_t;104,4214
+typedef __u16 uint16_t;105,4236
+typedef __u32 uint32_t;106,4260
+typedef __u64 uint64_t;107,4284
+typedef __size_t size_t;108,4308
+typedef __ssize_t ssize_t;109,4333
+typedef __intptr_t intptr_t;110,4360
+typedef __uintptr_t uintptr_t;111,4389
+typedef __ptrdiff_t ptrdiff_t;112,4420
+typedef __blkcnt_t blkcnt_t;115,4506
+typedef __blksize_t blksize_t;116,4535
+typedef __daddr_t daddr_t;117,4566
+typedef __dev_t dev_t;118,4593
+typedef __fsid_t fsid_t;119,4616
+typedef __gid_t gid_t;120,4641
+typedef __in_addr_t in_addr_t;121,4664
+typedef __in_port_t in_port_t;122,4695
+typedef __ino_t ino_t;123,4726
+typedef __mode_t mode_t;124,4749
+typedef __nlink_t nlink_t;125,4774
+typedef __off_t off_t;126,4801
+typedef __pid_t pid_t;127,4824
+typedef __rlim_t rlim_t;128,4847
+typedef __sa_family_t sa_family_t;129,4872
+typedef __time_t time_t;130,4907
+typedef __uid_t uid_t;131,4932
+typedef __nfds_t nfds_t;133,4956
+typedef __socklen_t socklen_t;134,4981
+#define CHAR_BIT 140,5049
+#define NULL 146,5103
+typedef _Bool bool;151,5148
+#define true 152,5168
+#define false 153,5184
+
+kern/include/uio.h,515
+#define _UIO_H_31,1632
+enum uio_rw 43,1835
+        UIO_READ,44,1849
+        UIO_WRITE,45,1898
+enum uio_seg 49,1978
+        UIO_USERISPACE,50,1993
+        UIO_USERSPACE,51,2044
+        UIO_SYSSPACE,52,2094
+struct uio 55,2136
+	struct iovec     *uio_iov;uio_iov56,2149
+	unsigned          uio_iovcnt;57,2195
+	off_t             uio_offset;58,2249
+	size_t            uio_resid;59,2313
+	enum uio_seg      uio_segflg;60,2379
+	enum uio_rw       uio_rw;61,2445
+	struct addrspace *uio_space;uio_space62,2508
+
+kern/include/uw-vmstats.h,437
+#define VM_STATS_H2,19
+#define VMSTAT_TLB_FAULT 29,878
+#define VMSTAT_TLB_FAULT_FREE 30,920
+#define VMSTAT_TLB_FAULT_REPLACE 31,962
+#define VMSTAT_TLB_INVALIDATE 32,1004
+#define VMSTAT_TLB_RELOAD 33,1046
+#define VMSTAT_PAGE_FAULT_ZERO 34,1088
+#define VMSTAT_PAGE_FAULT_DISK 35,1130
+#define VMSTAT_ELF_FILE_READ 36,1172
+#define VMSTAT_SWAP_FILE_READ 37,1214
+#define VMSTAT_SWAP_FILE_WRITE 38,1256
+#define VMSTAT_COUNT 39,1298
+
+kern/include/version.h,89
+#define _VERSION_H_31,1636
+#define BASE_VERSION 37,1753
+#define GROUP_VERSION 42,1862
+
+kern/include/vfs.h,52
+#define _VFS_H_31,1632
+#define VFSINLINE 181,7383
+
+kern/include/vm.h,121
+#define _VM_H_31,1631
+#define VM_FAULT_READ 43,1802
+#define VM_FAULT_WRITE 44,1863
+#define VM_FAULT_READONLY 45,1925
+
+kern/include/vnode.h,2174
+#define _VNODE_H_31,1634
+struct vnode 54,2168
+	int vn_refcount;55,2183
+	int vn_opencount;56,2238
+	struct fs *vn_fs;vn_fs58,2258
+	void *vn_data;vn_data60,2326
+	const struct vnode_ops *vn_ops;vn_ops62,2391
+#define VOP_MAGIC	193,8580
+struct vnode_ops 195,8610
+	unsigned long vop_magic;196,8629
+	int (*vop_open)vop_open198,8689
+	int (*vop_close)vop_close199,8750
+	int (*vop_reclaim)vop_reclaim200,8791
+	int (*vop_read)vop_read203,8835
+	int (*vop_readlink)vop_readlink204,8890
+	int (*vop_getdirentry)vop_getdirentry205,8949
+	int (*vop_write)vop_write206,9010
+	int (*vop_ioctl)vop_ioctl207,9066
+	int (*vop_stat)vop_stat208,9131
+	int (*vop_gettype)vop_gettype209,9193
+	int (*vop_tryseek)vop_tryseek210,9252
+	int (*vop_fsync)vop_fsync211,9306
+	int (*vop_mmap)vop_mmap212,9347
+	int (*vop_truncate)vop_truncate213,9401
+	int (*vop_namefile)vop_namefile214,9454
+	int (*vop_creat)vop_creat217,9515
+	int (*vop_symlink)vop_symlink220,9627
+	int (*vop_mkdir)vop_mkdir222,9714
+	int (*vop_link)vop_link224,9794
+	int (*vop_remove)vop_remove226,9873
+	int (*vop_rmdir)vop_rmdir228,9936
+	int (*vop_rename)vop_rename231,9997
+	int (*vop_lookup)vop_lookup235,10102
+	int (*vop_lookparent)vop_lookparent237,10186
+#define __VOP(242,10313
+#define VOP_OPEN(244,10386
+#define VOP_CLOSE(245,10455
+#define VOP_RECLAIM(246,10518
+#define VOP_READ(248,10584
+#define VOP_READLINK(249,10651
+#define VOP_GETDIRENTRY(250,10722
+#define VOP_WRITE(251,10795
+#define VOP_IOCTL(252,10863
+#define VOP_STAT(253,10935
+#define VOP_GETTYPE(254,10997
+#define VOP_TRYSEEK(255,11070
+#define VOP_FSYNC(256,11140
+#define VOP_MMAP(257,11203
+#define VOP_TRUNCATE(258,11280
+#define VOP_NAMEFILE(259,11351
+#define VOP_CREAT(261,11423
+#define VOP_SYMLINK(262,11503
+#define VOP_MKDIR(263,11583
+#define VOP_LINK(264,11658
+#define VOP_REMOVE(265,11731
+#define VOP_RMDIR(266,11801
+#define VOP_RENAME(267,11870
+#define VOP_LOOKUP(269,11951
+#define VOP_LOOKPARENT(270,12026
+#define VOP_INCREF(283,12329
+#define VOP_DECREF(284,12372
+#define VOP_INCOPEN(295,12704
+#define VOP_DECOPEN(296,12748
+#define VOP_INIT(305,13005
+#define VOP_CLEANUP(313,13225
+
+kern/include/wchan.h,26
+#define _WCHAN_H_31,1634
+
+kern/lib/array.c,162
+#define ARRAYINLINE30,1493
+array_create(38,1609
+array_destroy(50,1732
+array_init(57,1803
+array_cleanup(64,1877
+array_setsize(79,2143
+array_remove(113,2827
+
+kern/lib/bitmap.c,365
+#define BITS_PER_WORD 46,2038
+#define WORD_TYPE 47,2073
+#define WORD_ALLBITS 48,2111
+struct bitmap 50,2143
+        unsigned nbits;51,2159
+        WORD_TYPE *v;v52,2183
+bitmap_create(57,2226
+bitmap_getdata(93,3203
+bitmap_alloc(99,3266
+bitmap_translate(126,4142
+bitmap_mark(135,4360
+bitmap_unmark(148,4608
+bitmap_isset(162,4859
+bitmap_destroy(172,5042
+
+kern/lib/bswap.c,127
+bswap16(47,2091
+bswap32(54,2187
+bswap64(63,2353
+#define TO(95,3244
+#define TO(106,3603
+TO(119,3839
+split64to32(150,4609
+
+kern/lib/kgets.c,31
+backsp(41,1782
+kgets(54,2019
+
+kern/lib/kprintf.c,232
+uint32_t dbflags 43,1877
+static struct lock *kprintf_lock;kprintf_lock46,1935
+static struct spinlock kprintf_spinlock;49,2001
+kprintf_bootstrap(63,2263
+console_send(79,2557
+kprintf(94,2726
+panic(133,3362
+badassert(206,4722
+
+kern/lib/misc.c,35
+kstrdup(38,1727
+strerror(55,1998
+
+kern/lib/queue.c,353
+struct queue 10,140
+	int size;11,155
+	int nextwrite;12,166
+	int nextread;13,221
+	void **data;data14,278
+q_grow(19,307
+q_create(54,913
+q_preallocate(71,1181
+q_empty(85,1350
+q_addtail(91,1421
+q_remhead(111,1772
+q_destroy(124,1951
+q_getstart(133,2089
+q_getend(139,2147
+q_getsize(145,2204
+q_getguy(151,2260
+q_peek(161,2493
+q_len(177,2665
+
+kern/lib/uio.c,60
+uiomove(42,1776
+uiomovezeros(123,3510
+uio_kinit(153,3981
+
+kern/proc/proc.c,402
+struct proc *kproc;kproc57,2342
+static volatile unsigned int proc_count;64,2517
+static struct semaphore *proc_count_mutex;proc_count_mutex67,2727
+struct semaphore *no_proc_sem;no_proc_sem69,2842
+proc_create(79,2949
+proc_destroy(113,3426
+proc_bootstrap(194,5455
+proc_create_runprogram(220,6109
+proc_addthread(282,7600
+proc_remthread(303,8004
+curproc_getas(333,8796
+curproc_setas(356,9273
+
+kern/startup/main.c,133
+static const char harvard_copyright[harvard_copyright70,2568
+boot(80,2800
+shutdown(145,4514
+sys_reboot(169,4943
+kmain(206,5545
+
+kern/startup/menu.c,846
+#define _PATH_SHELL 53,2033
+#define MAXMENUARGS 55,2064
+getinterval(59,2133
+cmd_progthread(88,2775
+common_prog(129,3749
+cmd_prog(169,4625
+cmd_shell(188,4889
+cmd_chdir(206,5126
+cmd_pwd(221,5334
+cmd_sync(252,5806
+cmd_panic(267,5958
+cmd_quit(281,6118
+cmd_dth(298,6338
+	const char *name;name312,6539
+	int (*func)func313,6558
+} mounttable[mounttable314,6592
+cmd_mount(323,6684
+cmd_unmount(353,7222
+cmd_bootfs(382,7726
+cmd_kheapstats(403,8053
+showmenu(419,8226
+static const char *opsmenu[opsmenu442,8540
+cmd_opsmenu(460,9100
+static const char *testmenu[testmenu469,9212
+cmd_testmenu(497,10047
+static const char *mainmenu[mainmenu512,10356
+cmd_mainmenu(529,10750
+	const char *name;name543,10939
+	int (*func)func544,10958
+} cmdtable[cmdtable545,10996
+cmd_dispatch(617,12368
+menu_execute(676,13639
+menu(718,14667
+
+kern/synchprobs/catmouse.c,1299
+#define INVALID_ANIMAL_NUM 39,933
+static int do_print_state 42,998
+static int NumBowls;68,1912
+static int NumCats;69,1958
+static int NumMice;70,1998
+static int NumLoops;71,2038
+static int CatEatTime 73,2110
+static int CatSleepTime 74,2180
+static int MouseEatTime 75,2252
+static int MouseSleepTime 76,2324
+static struct semaphore *CatMouseWait;CatMouseWait83,2597
+struct bowl 110,3309
+  volatile char animal;111,3323
+  volatile unsigned int which;112,3389
+struct bowl *bowls;bowls115,3459
+static volatile int eating_cats_count;121,3571
+static volatile int eating_mice_count;126,3702
+static struct semaphore *mutex;mutex133,3951
+static volatile time_t cat_total_wait_secs;136,4013
+static volatile uint32_t cat_total_wait_nsecs;137,4057
+static volatile int cat_wait_count;138,4104
+static volatile time_t mouse_total_wait_secs;139,4140
+static volatile uint32_t mouse_total_wait_nsecs;140,4186
+static volatile int mouse_wait_count;141,4235
+static struct semaphore *perf_mutex;perf_mutex144,4335
+initialize_bowls(161,4617
+cleanup_bowls(214,5676
+print_state_on(244,6091
+print_state_off(250,6140
+print_state(275,6472
+cat_eat(323,7417
+cat_sleep(392,9499
+mouse_eat(419,10018
+mouse_sleep(488,12194
+cat_simulation(512,12595
+mouse_simulation(576,14117
+catmouse(646,16005
+
+kern/synchprobs/catmouse_synch.c,240
+static struct semaphore *globalCatMouseSem;globalCatMouseSem22,762
+catmouse_sync_init(34,1030
+catmouse_sync_cleanup(55,1654
+cat_before_eating(77,2347
+cat_after_eating(99,3002
+mouse_before_eating(120,3693
+mouse_after_eating(142,4358
+
+kern/synchprobs/traffic.c,1292
+#define MAX_THREADS 45,713
+static int NumIterations 47,737
+static int NumThreads 48,811
+static int InterArrivalTime 49,887
+static int ServiceTime 50,958
+static int DirectionBias 51,1017
+static struct semaphore *SimulationWait;SimulationWait58,1242
+typedef struct Vehicles72,1555
+  Direction origin;74,1581
+  Direction destination;75,1601
+} Vehicle;76,1626
+static Vehicle * volatile vehicles[vehicles80,1725
+static struct semaphore *mutex;mutex82,1816
+static volatile time_t total_wait_secs[total_wait_secs85,1908
+static volatile uint32_t total_wait_nsecs[total_wait_nsecs86,1951
+static volatile int wait_count[wait_count87,1997
+static volatile time_t max_wait_secs[max_wait_secs88,2032
+static volatile uint32_t max_wait_nsecs[max_wait_nsecs89,2073
+static struct semaphore *perf_mutex;perf_mutex91,2178
+#define TICK_MILLISEC 93,2287
+time_t start_sec,96,2368
+time_t start_sec, end_sec;96,2368
+uint32_t start_nsec,97,2395
+uint32_t start_nsec, end_nsec;97,2395
+Direction heavy_direction;100,2469
+print_direction(125,2984
+choose_direction(156,3418
+print_perf_stats(190,4012
+right_turn(259,6315
+check_constraints(288,7011
+initialize_state(334,8534
+cleanup_state(377,9444
+in_intersection(398,9738
+vehicle_simulation(423,10140
+traffic_simulation(541,13858
+
+kern/synchprobs/traffic_synch.c,1051
+static struct lock *intersectionLock;intersectionLock8,120
+volatile int nsCount;10,159
+volatile int neCount;11,181
+volatile int nwCount;12,203
+volatile int enCount;13,225
+volatile int ewCount;14,247
+volatile int esCount;15,269
+volatile int seCount;16,291
+volatile int snCount;17,313
+volatile int swCount;18,335
+volatile int wsCount;19,357
+volatile int weCount;20,379
+volatile int wnCount;21,401
+static struct cv * nsCv;23,424
+static struct cv * neCv;24,449
+static struct cv * nwCv;25,474
+static struct cv * enCv;26,499
+static struct cv * ewCv;27,524
+static struct cv * esCv;28,549
+static struct cv * seCv;29,574
+static struct cv * snCv;30,599
+static struct cv * swCv;31,624
+static struct cv * wsCv;32,649
+static struct cv * weCv;33,674
+static struct cv * wnCv;34,699
+volatile bool isActive 36,725
+volatile int carsInIntersection 37,757
+bool can_go(41,901
+void car_signaler(132,3682
+intersection_sync_init(192,5189
+intersection_sync_cleanup(241,6372
+intersection_before_entry(276,7217
+intersection_after_exit(354,9679
+
+kern/synchprobs/whalemating.c,96
+#define NMATING 38,1708
+male(42,1740
+female(52,1879
+matchmaker(62,2022
+whalemating(73,2203
+
+kern/syscall/file_syscalls.c,18
+sys_write(24,523
+
+kern/syscall/loadelf.c,41
+load_segment(79,3220
+load_elf(154,5281
+
+kern/syscall/proc_syscalls.c,64
+void sys__exit(16,393
+sys_getpid(54,1474
+sys_waitpid(65,1720
+
+kern/syscall/runprogram.c,20
+runprogram(55,2209
+
+kern/syscall/time_syscalls.c,20
+sys___time(39,1755
+
+kern/test/arraytest.c,61
+#define TESTSIZE 35,1690
+testa(39,1723
+arraytest(122,3188
+
+kern/test/bitmaptest.c,46
+#define TESTSIZE 35,1691
+bitmaptest(38,1717
+
+kern/test/fstest.c,652
+#define SLOGAN 53,2119
+#define FILENAME 54,2163
+#define NCHUNKS 55,2193
+#define NTHREADS 56,2214
+#define NCREATES 57,2234
+static struct semaphore *threadsem threadsem59,2255
+init_threadsem(63,2311
+rotate(79,2608
+fstest_makename(103,2954
+#define MAKENAME(110,3137
+fstest_remove(114,3220
+fstest_write(134,3492
+fstest_read(212,5047
+dofstest(277,6406
+readstress_thread(303,6863
+doreadstress(314,7049
+writestress_thread(352,7734
+dowritestress(381,8264
+writestress2_thread(408,8764
+dowritestress2(423,8996
+createstress_thread(473,9997
+docreatestress(508,10617
+checkfilesystem(542,11263
+#define DEFTEST(561,11572
+printfile(583,12266
+
+kern/test/malloctest.c,141
+#define NTRIES 50,2013
+#define ITEMSIZE 51,2035
+#define NTHREADS 52,2057
+mallocthread(56,2090
+malloctest(94,2655
+mallocstress(107,2836
+
+kern/test/nettest.c,17
+nettest(38,1704
+
+kern/test/synchtest.c,807
+#define NSEMLOOPS 41,1767
+#define NLOCKLOOPS 42,1792
+#define NCVLOOPS 43,1818
+#define NTHREADS 44,1842
+static volatile unsigned long testval1;46,1868
+static volatile unsigned long testval2;47,1908
+static volatile unsigned long testval3;48,1948
+static struct semaphore *testsem testsem50,1998
+static struct lock *testlock testlock51,2036
+static struct cv *testcv testcv52,2070
+static struct semaphore *donesem donesem53,2100
+static struct semaphore *testsem;testsem55,2144
+static struct lock *testlock;testlock56,2178
+static struct cv *testcv;testcv57,2208
+static struct semaphore *donesem;donesem58,2234
+cleanitems(64,2298
+inititems(76,2491
+semtestthread(110,3119
+semtest(131,3422
+fail(171,4052
+locktestthread(184,4245
+locktest(229,4940
+cvtestthread(261,5416
+cvtest(314,6421
+
+kern/test/threadtest.c,192
+#define NTHREADS 39,1738
+static struct semaphore *tsem tsem41,1759
+init_sem(45,1810
+loudthread(57,1967
+quietthread(82,2400
+runthreads(98,2575
+threadtest(121,2966
+threadtest2(135,3153
+
+kern/test/tt3.c,631
+#define DIM 45,1884
+#define DIM 47,1905
+#define SLEEPALOT_PRINTS 51,1977
+#define SLEEPALOT_ITERS 52,2036
+#define WAKER_WAKES 54,2139
+#define COMPUTE_ITERS 56,2218
+#define NWAITCHANS 58,2252
+static struct wchan *waitchans[waitchans59,2274
+static volatile int wakerdone;61,2351
+static struct semaphore *wakersem;wakersem62,2382
+static struct semaphore *donesem;donesem63,2417
+setup(67,2464
+sleepalot_thread(85,2764
+waker_thread(106,3073
+make_sleepalots(135,3428
+compute_thread(155,3862
+	struct matrix 157,3911
+		char m[m158,3928
+make_computes(212,4788
+finish(228,5082
+runtest3(242,5240
+threadtest3(255,5521
+
+kern/test/uw-tests.c,420
+#define NAME_LEN 15,228
+static struct lock *testlock testlock17,251
+static struct semaphore *donesem donesem18,288
+#define NTESTLOOPS 20,330
+#define NTESTTHREADS 21,400
+#define START_VALUE 22,426
+static volatile int test_value 23,452
+static int use_locks 24,498
+cleanitems(28,537
+inititems(40,737
+add_thread(60,1098
+sub_thread(93,1769
+uwlocktest1(124,2362
+vmstats_thread(176,3496
+uwvmstatstest(258,5450
+
+kern/thread/clock.c,336
+#define SCHEDULE_HARDCLOCKS	54,2240
+#define MIGRATE_HARDCLOCKS	55,2307
+static struct wchan *lbolt;lbolt60,2448
+static struct wchan *minibolt;minibolt64,2564
+#define MINI_PER_SECOND 69,2638
+static int minicount;74,2718
+hardclock_bootstrap(80,2763
+timerclock(100,3192
+hardclock(116,3494
+clocksleep(136,3821
+clocknap(150,4044
+
+kern/thread/spinlock.c,164
+#define SPINLOCK_INLINE 31,1649
+spinlock_init(49,1878
+spinlock_cleanup(59,2012
+spinlock_acquire(73,2364
+spinlock_release(117,3241
+spinlock_do_i_hold(133,3555
+
+kern/thread/spl.c,80
+#define SPL_INLINE	31,1644
+splraise(87,3328
+spllower(107,3713
+splx(132,4188
+
+kern/thread/synch.c,282
+sem_create(48,1946
+sem_destroy(79,2562
+P(91,2815
+V(133,4068
+lock_create(151,4384
+lock_destroy(181,4929
+lock_acquire(193,5124
+lock_release(210,5519
+lock_do_i_hold(222,5771
+cv_create(233,5936
+cv_destroy(259,6404
+cv_wait(269,6552
+cv_signal(282,6794
+cv_broadcast(292,6971
+
+kern/thread/thread.c,1101
+#define THREADINLINE34,1660
+#define THREAD_STACK_MAGIC 58,2125
+struct wchan 61,2184
+	const char *wc_name;wc_name62,2199
+	struct threadlist wc_threads;63,2250
+	struct spinlock wc_lock;64,2311
+static struct cpuarray allcpus;70,2448
+static struct semaphore *cpu_startup_sem;cpu_startup_sem73,2535
+thread_checkstack_init(84,2811
+thread_checkstack(104,3572
+thread_create(120,4067
+cpu_create(166,5147
+thread_destroy(240,6868
+exorcise(273,7601
+thread_panic(290,7941
+thread_shutdown(332,9187
+thread_bootstrap(347,9414
+cpu_hatch(395,10755
+thread_start_cpus(413,11065
+thread_make_runnable(436,11452
+thread_fork(478,12540
+thread_switch(548,14252
+thread_startup(730,19981
+thread_exit(781,21022
+thread_yield(815,21770
+schedule(830,22034
+thread_consider_migration(856,22875
+wchan_create(975,26205
+wchan_destroy(994,26546
+wchan_lock(1005,26727
+wchan_unlock(1011,26799
+wchan_sleep(1023,27108
+wchan_wakeone(1035,27318
+wchan_wakeall(1060,27809
+wchan_isempty(1098,28717
+ipi_send(1119,29073
+ipi_broadcast(1130,29311
+ipi_tlbshootdown(1144,29512
+interprocessor_interrupt(1166,29960
+
+kern/thread/threadlist.c,460
+threadlistnode_init(40,1749
+threadlistnode_cleanup(51,1940
+threadlist_init(61,2128
+threadlist_cleanup(75,2419
+threadlist_isempty(92,2870
+threadlist_insertafternode(107,3108
+threadlist_insertbeforenode(127,3523
+threadlist_removenode(147,3937
+threadlist_addhead(163,4301
+threadlist_addtail(173,4486
+threadlist_remhead(183,4683
+threadlist_remtail(201,5005
+threadlist_insertafter(219,5316
+threadlist_insertbefore(227,5500
+threadlist_remove(235,5680
+
+kern/vfs/device.c,539
+dev_open(53,2053
+dev_close(70,2305
+dev_reclaim(82,2496
+dev_read(94,2671
+null_io(107,2927
+dev_write(119,3069
+dev_ioctl(131,3271
+dev_stat(144,3527
+dev_gettype(185,4385
+dev_tryseek(204,4686
+null_fsync(237,5250
+dev_mmap(249,5453
+dev_truncate(260,5576
+dev_namefile(282,5975
+null_creat(302,6294
+null_mkdir(315,6488
+null_symlink(325,6616
+null_nameop(335,6759
+null_link(344,6862
+null_rename(354,6996
+dev_lookup(378,7601
+dev_lookparent(396,7950
+static const struct vnode_ops dev_vnode_ops 415,8250
+dev_create_vnode(448,8765
+
+kern/vfs/devnull.c,97
+nullopen(44,1897
+nullclose(55,2017
+nullio(64,2103
+nullioctl(83,2394
+devnull_create(100,2582
+
+kern/vfs/vfscwd.c,113
+vfs_getcurdir(49,1910
+vfs_setcurdir(71,2260
+vfs_clearcurdir(103,2705
+vfs_chdir(124,3026
+vfs_getcwd(144,3355
+
+kern/vfs/vfslist.c,812
+#define VFSINLINE35,1724
+struct knowndev 77,3167
+	char *kd_name;kd_name78,3185
+	char *kd_rawname;kd_rawname79,3201
+	struct device *kd_device;kd_device80,3220
+	struct vnode *kd_vnode;kd_vnode81,3247
+	struct fs *kd_fs;kd_fs82,3272
+static struct knowndevarray *knowndevs;knowndevs88,3352
+static struct lock *vfs_biglock;vfs_biglock91,3462
+static unsigned vfs_biglock_depth;92,3495
+vfs_bootstrap(99,3562
+vfs_biglock_acquire(123,4188
+vfs_biglock_release(132,4315
+vfs_biglock_do_i_hold(143,4508
+vfs_sync(152,4646
+vfs_getroot(177,5055
+vfs_getdevname(257,6886
+mkrawname(289,7493
+samestring(308,7784
+samestring3(323,8020
+badnames(335,8260
+vfs_doadd(372,9019
+vfs_adddev(453,10312
+vfs_addfs(464,10597
+findmount(477,10844
+vfs_mount(509,11512
+vfs_unmount(555,12383
+vfs_unmountall(600,13016
+
+kern/vfs/vfslookup.c,194
+static struct vnode *bootfs_vnode bootfs_vnode43,1827
+change_bootfs(50,1944
+vfs_setbootfs(71,2301
+vfs_clearbootfs(115,2981
+getdevice(130,3232
+vfs_lookparent(232,5055
+vfs_lookup(265,5633
+
+kern/vfs/vfspath.c,184
+vfs_open(45,1853
+vfs_close(119,2948
+vfs_remove(141,3647
+vfs_rename(160,3942
+vfs_link(195,4651
+vfs_symlink(235,5459
+vfs_readlink(260,5973
+vfs_mkdir(281,6237
+vfs_rmdir(303,6562
+
+kern/vfs/vnode.c,157
+vnode_init(45,1841
+vnode_cleanup(64,2163
+vnode_incref(82,2428
+vnode_decref(99,2665
+vnode_incopen(128,3103
+vnode_decopen(142,3299
+vnode_check(174,3841
+
+kern/vm/copyinout.c,133
+copyfail(100,4449
+copycheck(118,4950
+copyin(153,5601
+copyout(189,6359
+copystr(235,7591
+copyinstr(266,8224
+copyoutstr(299,8971
+
+kern/vm/kmalloc.c,1297
+fill_deadbeef(42,1730
+#undef  SLOW	79,3108
+#undef SLOWER	80,3146
+#define NSIZES 86,3259
+static const size_t sizes[sizes87,3276
+#define SMALLEST_SUBPAGE_SIZE 89,3356
+#define LARGEST_SUBPAGE_SIZE 90,3389
+struct freelist 100,3567
+	struct freelist *next;next101,3585
+struct pageref 104,3613
+	struct pageref *next_samesize;next_samesize105,3630
+	struct pageref *next_all;next_all106,3662
+	vaddr_t pageaddr_and_blocktype;107,3689
+	uint16_t freelist_offset;108,3722
+	uint16_t nfree;109,3749
+#define INVALID_OFFSET 112,3770
+#define PR_PAGEADDR(114,3805
+#define PR_BLOCKTYPE(115,3874
+#define MKPAB(116,3944
+#define NPAGEREFS 138,4765
+static struct pageref pagerefs[pagerefs139,4820
+#define INUSE_WORDS 141,4864
+static uint32_t pagerefs_inuse[pagerefs_inuse142,4899
+allocpageref(146,4969
+freepageref(171,5325
+static struct pageref *sizebases[sizebases186,5623
+static struct pageref *allbase;allbase187,5665
+static struct spinlock kmalloc_spinlock 198,6019
+#define SLOW205,6179
+checksubpage(212,6231
+#define checksubpage(246,6964
+checksubpages(252,7036
+#define checksubpages(277,7456
+dumpsubpage(284,7543
+kheap_printstats(334,8721
+remove_lists(354,9069
+int blocktype(379,9497
+subpage_kmalloc(397,9758
+subpage_kfree(513,12553
+kmalloc(602,14708
+kfree(622,15036
+
+kern/vm/uw-vmstats.c,251
+static unsigned int stats_counts[stats_counts20,529
+struct spinlock stats_lock 22,578
+static const char *stats_names[stats_names25,680
+vmstats_inc(42,1174
+vmstats_init(51,1390
+_vmstats_inc(65,1790
+_vmstats_init(73,1968
+vmstats_print(97,2647

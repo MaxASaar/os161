@@ -49,7 +49,22 @@
 #include <vnode.h>
 #include <vfs.h>
 #include <synch.h>
-#include <kern/fcntl.h>  
+#include <kern/fcntl.h>
+
+#include "opt-A2.h"
+// #include <array.h> // for recovered pid array
+
+#ifdef OPT_A2
+// Lock editing of the 'current_pid' variable whenever it needsto be modified or accessed
+struct lock * pid_lock;
+const char * lock_name = "pid_lock";
+static volatile pid_t current_pid = 1; // current_pid is the pid of the next process that is created, will be incremented after process creation 
+// When you delete a process, the PID that was being used in the deleted process should be able to be reused
+// thus, storing all 'recovered' pids in an array
+// Initialize the recovered pid array as a global variable so that all processes can use the same one
+struct array * recovered_pids;
+
+#endif // OPT_A2
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
@@ -103,6 +118,25 @@ proc_create(const char *name)
 	proc->console = NULL;
 #endif // UW
 
+#ifdef OPT_A2
+	/* Set the current process's ID (p_id) */
+	// If there is a recovered PID, grab it from the end of the array
+	int arraySize = array_num(recovered_pids);
+	if (array_num(recovered_pids) > 0){
+		// Get the index of the last item in the array
+		int lastIndex = arraySize - 1;
+		// Set pid = to the last pid in the array
+		proc->p_id = *(pid_t *)array_get(recovered_pids, lastIndex);
+		// Remove the last item in the array
+		array_remove(recovered_pids, lastIndex);
+	} else {
+		// Since there are no recovered PIDs, just use the simple counter
+		lock_acquire(pid_lock);
+		proc->p_id = current_pid;
+		current_pid += 1;
+		lock_release(pid_lock);
+	}
+#endif // OPT_A2
 	return proc;
 }
 
@@ -166,6 +200,13 @@ proc_destroy(struct proc *proc)
 	threadarray_cleanup(&proc->p_threads);
 	spinlock_cleanup(&proc->p_lock);
 
+#ifdef OPT_A2
+	/* Add the pid to the recovered pid array */
+	int * recovered_pid = kmalloc(sizeof(int));
+	*recovered_pid = proc->p_id;
+	array_add(recovered_pids, recovered_pid, NULL);
+#endif // OPT_A2
+
 	kfree(proc->p_name);
 	kfree(proc);
 
@@ -183,7 +224,6 @@ proc_destroy(struct proc *proc)
 	}
 	V(proc_count_mutex);
 #endif // UW
-	
 
 }
 
@@ -193,6 +233,12 @@ proc_destroy(struct proc *proc)
 void
 proc_bootstrap(void)
 {
+#ifdef OPT_A2
+	// Initialize the lock and the array struct used for pids
+	pid_lock = lock_create(lock_name);
+	recovered_pids = array_create();
+	array_init(recovered_pids);
+#endif
   kproc = proc_create("[kernel]");
   if (kproc == NULL) {
     panic("proc_create for kproc failed\n");
@@ -364,3 +410,18 @@ curproc_setas(struct addrspace *newas)
 	spinlock_release(&proc->p_lock);
 	return oldas;
 }
+
+void
+proc_connect(struct proc *parent, struct proc *child)
+{
+	struct child_struct *childStruct = kmalloc(sizeof(struct child_struct));
+	// Link the parent with the child proc
+	// Link the child up with the parent proc
+	// childStruct->error_code = NULL;
+	childStruct->child_pid = child->p_id;
+	childStruct->child_proc = parent;
+	childStruct->child_proc->parent_proc = parent;
+	// Append the child object to the parent's children array 
+	array_add(parent->children, childStruct, NULL);
+}
+

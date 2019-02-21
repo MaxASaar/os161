@@ -39,11 +39,18 @@
 #include <spinlock.h>
 #include <thread.h> /* required for struct threadarray */
 
+#include "opt-A2.h"
+#include <array.h>
+
 struct addrspace;
 struct vnode;
 #ifdef UW
 struct semaphore;
 #endif // UW
+
+#ifdef OPT_A2
+struct lock * pid_lock;
+#endif
 
 /*
  * Process structure.
@@ -59,6 +66,17 @@ struct proc {
 	/* VFS */
 	struct vnode *p_cwd;		/* current working directory */
 
+	#ifdef OPT_A2
+	/* ID of the process (will be used in get_pid) */
+	pid_t p_id;
+
+	/* Array of child processes */
+	struct array * children;
+
+	/* Pointer to parent process */
+	struct proc * parent_proc;
+	#endif //OPT_A2
+
 #ifdef UW
   /* a vnode to refer to the console device */
   /* this is a quick-and-dirty way to get console writes working */
@@ -70,6 +88,17 @@ struct proc {
 
 	/* add more material here as needed */
 };
+
+#ifdef OPT_A2
+/*
+ * Structure of a process's child 
+ */
+struct child_struct {
+	struct proc * child_proc;
+	pid_t child_pid;
+	int error_code;
+};
+#endif
 
 /* This is the process structure for the kernel and for kernel-only threads. */
 extern struct proc *kproc;
@@ -100,5 +129,7 @@ struct addrspace *curproc_getas(void);
 /* Change the address space of the current process, and return the old one. */
 struct addrspace *curproc_setas(struct addrspace *);
 
+/* Establish connection between parent and child */
+void proc_connect(struct proc *parent, struct proc *child);
 
 #endif /* _PROC_H_ */
