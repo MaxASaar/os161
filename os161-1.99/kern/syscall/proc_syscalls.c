@@ -10,6 +10,9 @@
 #include <addrspace.h>
 #include <copyinout.h>
 
+#include "opt-A2.h"
+#include <mips/trapframe.h>
+
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
 
@@ -48,15 +51,78 @@ void sys__exit(int exitcode) {
   panic("return from thread_exit in sys_exit\n");
 }
 
+#ifdef OPT_A2
+/* handler for fork() system call */
+int sys_fork(struct trapframe * tf, pid_t * retval){
+  /* Create process structure for child process */
+  const char * name = "childprocess";
+  struct proc *child_proc = proc_create_runprogram(name);
+  if(!child_proc){
+    return ENOMEM;
+  }
+
+  /* Create and copy address space (and data) from parent to child */
+  struct addrspace *as = kmalloc(sizeof(struct addrspace));
+  if(!as){
+    proc_destroy(child_proc);
+    return ENOMEM;
+  }
+  int as_error = as_copy(curproc->p_addrspace, &as);
+  if(as_error){
+    // No memory, destroy the child process
+    proc_destroy(child_proc);
+    return ENOMEM;
+  }
+  /* Attach the newly created address space to the child process structure */
+  child_proc->p_addrspace = as;
+
+  /* Assign PID to child process and create the parent/child relationship */
+  // Since proc.c already assigns a pid to the child, we just need to add the child's pid to the parents children array
+  proc_connect(curproc, child_proc);
+  
+  /*
+   * Create thread for child process (need a safe way to pass the trapframe to
+   * the child thread).
+   */
+  // First duplicate the trapframe
+  struct trapframe * tf_copy = kmalloc(sizeof(struct trapframe));
+  if(!tf_copy){
+    return ENOMEM;
+  }
+
+  // Initialize the array structure of the new child process;
+  child_proc->children = array_create();
+  array_init(child_proc->children);
+  // Duplicate the data
+  memcpy(tf_copy, tf, sizeof(struct trapframe));
+  int status = thread_fork("child", child_proc, enter_forked_process, tf_copy, 0);
+
+  if(status != 0){
+    // Thread forking failed, delete the trapframe, destroy the child process
+    kfree(tf_copy);
+    array_cleanup(child_proc->children);
+    array_destroy(child_proc->children);
+    proc_destroy(child_proc);
+    return status;
+  }
+  *retval = child_proc->p_id;
+  return 0;
+}
+#endif
 
 /* stub handler for getpid() system call                */
 int
 sys_getpid(pid_t *retval)
 {
+#ifdef OPT_A2
+  *retval = curproc->p_id;
+  return(0);
+#else
   /* for now, this is just a stub that always returns a PID of 1 */
   /* you need to fix this to make it work properly */
   *retval = 1;
   return(0);
+#endif
 }
 
 /* stub handler for waitpid() system call                */
