@@ -129,7 +129,9 @@ struct addrspace *curproc_getas(void);
 /* Change the address space of the current process, and return the old one. */
 struct addrspace *curproc_setas(struct addrspace *);
 
+#ifdef OPT_A2
 /* Establish connection between parent and child */
 void proc_connect(struct proc *parent, struct proc *child);
+#endif // OPT_A2
 
 #endif /* _PROC_H_ */
