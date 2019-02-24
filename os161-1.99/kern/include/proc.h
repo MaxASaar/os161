@@ -73,9 +73,15 @@ struct proc {
 #ifdef OPT_A2
 	// Id of the process
 	pid_t p_id;
+	struct cv *parent_cv; // For when the parent wants to access our has_exited and exit_code fields
+	struct lock *lock; // For locking during above cv usage
+	int exit_code;
+	bool has_exited;
+	struct proc *parent;
+	struct array *children;
+	// Note, alot of these fields have to be initialized in proc_create
 #endif
 
-	/* add more material here as needed */
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */

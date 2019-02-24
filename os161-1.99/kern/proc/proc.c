@@ -107,8 +107,14 @@ proc_create(const char *name)
 	proc->console = NULL;
 #endif // UW
 #ifdef OPT_A2
+	// Initialize all of the added fields to thte proc struct
 	proc->p_id = current_pid;
 	current_pid++;
+	proc->parent_cv = cv_create("parent_cv");
+	proc->lock = lock_create("lock");
+	proc->has_exited = false;
+	proc->parent = curproc; //Should this be null?
+	proc->children = array_create();
 #endif
 
 	return proc;
