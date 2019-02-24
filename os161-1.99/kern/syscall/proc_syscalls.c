@@ -54,9 +54,9 @@ void sys__exit(int exitcode) {
 #ifdef OPT_A2
 /* handler for fork() system call */
 int sys_fork(struct trapframe * tf, pid_t * retval){
+  KASSERT(curproc != NULL);
   /* Create process structure for child process */
-  const char * name = "childprocess";
-  struct proc *child_proc = proc_create_runprogram(name);
+  struct proc *child_proc = proc_create_runprogram(curproc->p_name);
   if(!child_proc){
     return ENOMEM;
   }

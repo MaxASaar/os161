@@ -52,17 +52,17 @@
 #include <kern/fcntl.h>
 
 #include "opt-A2.h"
-// #include <array.h> // for recovered pid array
+//#include <array.h> // for recovered pid array
 
 #ifdef OPT_A2
 // Lock editing of the 'current_pid' variable whenever it needsto be modified or accessed
 struct lock * pid_lock;
 const char * lock_name = "pid_lock";
-static volatile pid_t current_pid = 1; // current_pid is the pid of the next process that is created, will be incremented after process creation 
+static volatile pid_t current_pid; // current_pid is the pid of the next process that is created, will be incremented after process creation 
 // When you delete a process, the PID that was being used in the deleted process should be able to be reused
 // thus, storing all 'recovered' pids in an array
 // Initialize the recovered pid array as a global variable so that all processes can use the same one
-struct array * recovered_pids;
+//struct array * recovered_pids;
 
 #endif // OPT_A2
 
@@ -119,23 +119,25 @@ proc_create(const char *name)
 #endif // UW
 
 #ifdef OPT_A2
+	proc->children = array_create();
+	
 	/* Set the current process's ID (p_id) */
 	// If there is a recovered PID, grab it from the end of the array
-	int arraySize = array_num(recovered_pids);
-	if (array_num(recovered_pids) > 0){
+	//int arraySize = array_num(recovered_pids);
+	//if (array_num(recovered_pids) > 0){
 		// Get the index of the last item in the array
-		int lastIndex = arraySize - 1;
+	//	int lastIndex = arraySize - 1;
 		// Set pid = to the last pid in the array
-		proc->p_id = *(pid_t *)array_get(recovered_pids, lastIndex);
+	//	proc->p_id = *(pid_t *)array_get(recovered_pids, lastIndex);
 		// Remove the last item in the array
-		array_remove(recovered_pids, lastIndex);
-	} else {
+	//	array_remove(recovered_pids, lastIndex);
+	//} else {
 		// Since there are no recovered PIDs, just use the simple counter
 		lock_acquire(pid_lock);
 		proc->p_id = current_pid;
 		current_pid += 1;
 		lock_release(pid_lock);
-	}
+	//}
 #endif // OPT_A2
 	return proc;
 }
@@ -202,9 +204,20 @@ proc_destroy(struct proc *proc)
 
 #ifdef OPT_A2
 	/* Add the pid to the recovered pid array */
-	int * recovered_pid = kmalloc(sizeof(int));
-	*recovered_pid = proc->p_id;
-	array_add(recovered_pids, recovered_pid, NULL);
+	//int * recovered_pid = kmalloc(sizeof(int));
+	//*recovered_pid = proc->p_id;
+	//array_add(recovered_pids, recovered_pid, NULL);
+	
+	// Locate myself in my parents children array, append my exit status of 0 to the parent
+	if(proc->parent_proc){
+		for(int x = 0; x < array_num(proc->parent_proc->children); x++){
+			if(proc->p_id == array_get(proc->parent_proc->children, x)->child_proc->p_id){
+				//Itsa me!
+				// set my status to 0 so my parent knows im dead
+				array_get(proc->parent_proc->children, x)->exit_status = 0;
+			}
+		}
+	} 
 #endif // OPT_A2
 
 	kfree(proc->p_name);
@@ -236,8 +249,9 @@ proc_bootstrap(void)
 #ifdef OPT_A2
 	// Initialize the lock and the array struct used for pids
 	pid_lock = lock_create(lock_name);
-	recovered_pids = array_create();
-	array_init(recovered_pids);
+	//recovered_pids = array_create();
+	//array_init(recovered_pids);
+	current_pid = 1;
 #endif
   kproc = proc_create("[kernel]");
   if (kproc == NULL) {
