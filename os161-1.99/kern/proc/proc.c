@@ -51,6 +51,8 @@
 #include <synch.h>
 #include <kern/fcntl.h>  
 
+#include "opt-A2.h"
+
 /*
  * The process for the kernel; this holds all the kernel-only threads.
  */
@@ -68,7 +70,9 @@ static struct semaphore *proc_count_mutex;
 /* used to signal the kernel menu thread when there are no processes */
 struct semaphore *no_proc_sem;   
 #endif  // UW
-
+#ifdef OPT_A2
+static volatile pid_t current_pid; // global pid counter, currently not reusable
+#endif
 
 
 /*
@@ -102,6 +106,10 @@ proc_create(const char *name)
 #ifdef UW
 	proc->console = NULL;
 #endif // UW
+#ifdef OPT_A2
+	proc->p_id = current_pid;
+	current_pid++;
+#endif
 
 	return proc;
 }
@@ -208,6 +216,9 @@ proc_bootstrap(void)
     panic("could not create no_proc_sem semaphore\n");
   }
 #endif // UW 
+#ifdef OPT_A2
+  current_pid = 1; //initialize the first pid to be returned
+#endif
 }
 
 /*

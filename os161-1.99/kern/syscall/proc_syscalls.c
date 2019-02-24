@@ -10,6 +10,8 @@
 #include <addrspace.h>
 #include <copyinout.h>
 
+#include "opt-A2.h"
+#include <mips/trapframe.h>
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
 
@@ -53,9 +55,13 @@ void sys__exit(int exitcode) {
 int
 sys_getpid(pid_t *retval)
 {
+  #ifdef OPT_A2
+  *retval = curproc->p_id;
+  #else
   /* for now, this is just a stub that always returns a PID of 1 */
   /* you need to fix this to make it work properly */
   *retval = 1;
+  #endif
   return(0);
 }
 
@@ -92,3 +98,54 @@ sys_waitpid(pid_t pid,
   return(0);
 }
 
+#ifdef OPT_A2
+
+//Fork system call
+int sys_fork(struct trapframe *tf, pid_t *retval){
+	(void) tf;
+	(void) retval;
+	KASSERT(curproc != NULL);
+	// Create process struct for the child
+	struct proc *child_proc = proc_create_runprogram(curproc->p_name);
+	if(child_proc == NULL){
+		return ENOMEM;
+	}
+	// Create and copy address space + data from parent to child
+	struct addrspace *as = kmalloc(sizeof(struct addrspace));
+	if(!as){
+		proc_destroy(child_proc);
+		return ENOMEM;
+	}
+	int as_error = as_copy(curproc->p_addrspace, &as);
+	if(as_error){
+		kfree(as);
+		proc_destroy(child_proc);
+		return ENOMEM;
+	}
+	
+ 	// Attach newly created address space to the child process
+	child_proc->p_addrspace = as;
+	// Assign PID to child, create parent/child relationship
+	// Lets make a helper function that connects the parent to the child
+	
+	/* ADD STUFF HERE */
+	
+	// Create a duplicate trapframe for the child process
+	struct trapframe *tf_copy = kmalloc(sizeof(struct trapframe));
+	if(!tf_copy){
+		return ENOMEM;
+	}
+	*tf_copy = *tf;
+
+	// Create thread for child process (how does trapframe get passed?)
+	int fork_status = thread_fork("child", child_proc, enter_forked_process, tf_copy, 0);
+	if(fork_status != 0){
+		kfree(tf_copy);
+		proc_destroy(child_proc);
+		return fork_status;
+	}
+	*retval = 1;
+	// Enter_forked_process will handle the rest from the checklist
+	return 0;
+}
+#endif
