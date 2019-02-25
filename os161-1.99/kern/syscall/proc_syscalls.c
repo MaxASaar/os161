@@ -17,11 +17,12 @@
   /* this needs to be fixed to get exit() and waitpid() working properly */
 
 void sys__exit(int exitcode) {
-
   struct addrspace *as;
   #ifdef OPT_A2
   // We don't need p, we are just using curproc
   // Also exitcode is being used
+  kprintf("sys__exiting with curprocname: %s\n", curproc->p_name);
+  kprintf("sys__exiting do i have a parent: %d\n", curproc->parent != NULL);
   #else
   struct proc *p = curproc;
   /* for now, just include this to keep the compiler from complaining about
@@ -48,7 +49,7 @@ void sys__exit(int exitcode) {
   // parent may or may not be waiting on a cv for us to die
   curproc->has_exited = true;
   // Note, we can safely delete our process if there is no parent
-  if(!curproc->parent){
+  if(curproc->parent == NULL){
     proc_destroy(curproc);
   }else{
     // If we still have a parent, they could call waitpid on us, even though we have exited, so we still need to stick around
@@ -163,7 +164,7 @@ int sys_fork(struct trapframe *tf, pid_t *retval){
 	(void) retval;
 	KASSERT(curproc != NULL);
 	// Create process struct for the child
-	struct proc *child_proc = proc_create_runprogram(curproc->p_name);
+	struct proc *child_proc = proc_create_runprogram("new proc");
 	if(child_proc == NULL){
 		return ENOMEM;
 	}
