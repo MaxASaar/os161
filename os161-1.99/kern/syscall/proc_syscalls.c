@@ -185,7 +185,10 @@ int sys_fork(struct trapframe *tf, pid_t *retval){
 	// Assign PID to child, create parent/child relationship
 	// Append the child to the children array
 	unsigned int index_of_child;
+	//////////////
+	lock_acquire(curproc->lock);
 	array_add(curproc->children, child_proc, &index_of_child);
+	lock_release(curproc->lock);
 	// Assign the child's parent
 	child_proc->parent = curproc;
 	// Create a duplicate trapframe for the child process

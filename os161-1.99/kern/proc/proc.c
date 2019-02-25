@@ -71,7 +71,8 @@ static struct semaphore *proc_count_mutex;
 struct semaphore *no_proc_sem;   
 #endif  // UW
 #ifdef OPT_A2
-static volatile pid_t current_pid; // global pid counter, currently not reusable
+static volatile pid_t current_pid = 1; // global pid counter, currently not reusable
+struct lock * pid_lock; // For providing exclusive access to 'current_pid'
 #endif
 
 
@@ -108,8 +109,17 @@ proc_create(const char *name)
 #endif // UW
 #ifdef OPT_A2
 	// Initialize all of the added fields to thte proc struct
-	proc->p_id = current_pid;
-	current_pid++;
+	// For whatever reason, the lock isnt initialized yet for the first proc
+	if(current_pid == 1){
+		
+		proc->p_id = current_pid;
+		current_pid++;
+	}else{	
+		lock_acquire(pid_lock);
+		proc->p_id = current_pid;
+		current_pid++;
+		lock_release(pid_lock);
+	}
 	proc->parent_cv = cv_create("parent_cv");
 	proc->lock = lock_create("lock");
 	proc->has_exited = false;
@@ -160,19 +170,22 @@ proc_destroy(struct proc *proc)
 		// If the child is exited then destroy and remove
 		// if not, set its parent to null
 		// In both cases, it is being removd from the array
+		lock_acquire(proc->lock);
+		array_remove(proc->children, i);
+		lock_release(proc->lock);
 		if(this_child->has_exited){
 			proc_destroy(this_child);
 		}else{
 			this_child->parent = NULL;
 		}
-		lock_acquire(this_child->lock);
-		array_remove(proc->children, i);
-		lock_release(this_child->lock);
 	}
 	// Now that all of the elements ahve been removed from the array, destroy it
+	kprintf("LENGTH OF THE ARRAY: %d", array_num(proc->children));
+	kprintf("LENGTH OF THE ARRAYyyyyyy: %d", proc->children->num);
 	array_destroy(proc->children);
 	lock_destroy(proc->lock);
 	cv_destroy(proc->parent_cv);
+	kprintf("good shit boys");
 	
 	// Also destroy the other fields that still persist, such as the lock and parent cv
 #endif
@@ -248,7 +261,8 @@ proc_bootstrap(void)
   }
 #endif // UW 
 #ifdef OPT_A2
-  current_pid = 1; //initialize the first pid to be returned
+  // current_pid = 1; //initialize the first pid to be returned
+  pid_lock = lock_create("pid_lock");
 #endif
 }
 

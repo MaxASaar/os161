@@ -34,6 +34,8 @@
 #include <lib.h>
 #include <array.h>
 
+#include <proc.h>
+
 struct array *
 array_create(void)
 {
@@ -68,6 +70,12 @@ array_cleanup(struct array *a)
 	 * we don't/can't free anything any contents may be pointing
 	 * to.
 	 */
+	if(a->num > 0){
+		struct proc * first_child = array_get(a, 0);
+		kprintf("it turns out a->num is actually %d\n", a->num);
+		kprintf("lets log the pid of the child: %d\n", first_child->p_id);
+		kprintf("HMMMM %s\n", first_child->p_name);
+	}
 	ARRAYASSERT(a->num == 0);
 	kfree(a->v);
 #ifdef ARRAYS_CHECKED
