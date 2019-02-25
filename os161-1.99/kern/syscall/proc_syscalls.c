@@ -183,10 +183,11 @@ int sys_fork(struct trapframe *tf, pid_t *retval){
  	// Attach newly created address space to the child process
 	child_proc->p_addrspace = as;
 	// Assign PID to child, create parent/child relationship
-	// Lets make a helper function that connects the parent to the child
-	
-	/* ADD STUFF HERE */
-	
+	// Append the child to the children array
+	unsigned int index_of_child;
+	array_add(curproc->children, child_proc, &index_of_child);
+	// Assign the child's parent
+	child_proc->parent = curproc;
 	// Create a duplicate trapframe for the child process
 	struct trapframe *tf_copy = kmalloc(sizeof(struct trapframe));
 	if(!tf_copy){

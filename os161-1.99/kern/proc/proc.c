@@ -113,7 +113,7 @@ proc_create(const char *name)
 	proc->parent_cv = cv_create("parent_cv");
 	proc->lock = lock_create("lock");
 	proc->has_exited = false;
-	proc->parent = curproc; //Should this be null?
+	proc->parent = NULL; //Should this be curproc?
 	proc->children = array_create();
 #endif
 
@@ -150,7 +150,32 @@ proc_destroy(struct proc *proc)
 		proc->p_cwd = NULL;
 	}
 
-
+#ifdef OPT_A2
+	// If there are children that have exited, we have to destroy them
+	// Also, we should remove active child processes from the array, but not destroy them
+	
+	// Due to the way array remove works, it is best to iterate from back to front of the array
+	for(int i = array_num(proc->children) - 1; i >= 0; i--){
+		struct proc * this_child = array_get(proc->children, i);
+		// If the child is exited then destroy and remove
+		// if not, set its parent to null
+		// In both cases, it is being removd from the array
+		if(this_child->has_exited){
+			proc_destroy(this_child);
+		}else{
+			this_child->parent = NULL;
+		}
+		lock_acquire(this_child->lock);
+		array_remove(proc->children, i);
+		lock_release(this_child->lock);
+	}
+	// Now that all of the elements ahve been removed from the array, destroy it
+	array_destroy(proc->children);
+	lock_destroy(proc->lock);
+	cv_destroy(proc->parent_cv);
+	
+	// Also destroy the other fields that still persist, such as the lock and parent cv
+#endif
 #ifndef UW  // in the UW version, space destruction occurs in sys_exit, not here
 	if (proc->p_addrspace) {
 		/*
