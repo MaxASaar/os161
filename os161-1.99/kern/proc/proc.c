@@ -180,13 +180,9 @@ proc_destroy(struct proc *proc)
 		}
 	}
 	// Now that all of the elements ahve been removed from the array, destroy it
-	kprintf("LENGTH OF THE ARRAY: %d", array_num(proc->children));
-	kprintf("LENGTH OF THE ARRAYyyyyyy: %d", proc->children->num);
 	array_destroy(proc->children);
 	lock_destroy(proc->lock);
-	cv_destroy(proc->parent_cv);
-	kprintf("good shit boys");
-	
+	cv_destroy(proc->parent_cv);	
 	// Also destroy the other fields that still persist, such as the lock and parent cv
 #endif
 #ifndef UW  // in the UW version, space destruction occurs in sys_exit, not here
