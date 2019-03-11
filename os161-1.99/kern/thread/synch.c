@@ -271,8 +271,8 @@ cv_wait(struct cv *cv, struct lock *lock)
 	KASSERT(lock != NULL);
 	KASSERT(lock->owner == curthread->t_name);
 	
-	lock_release(lock);
 	wchan_lock(cv->wchan);
+	lock_release(lock);
 	wchan_sleep(cv->wchan);
 	lock_acquire(lock);
 }
