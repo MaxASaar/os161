@@ -13,6 +13,10 @@
 #include "opt-A2.h"
 #include <mips/trapframe.h>
 #include <synch.h>
+#include <limits.h>
+#include <vfs.h>
+#include <kern/fcntl.h>
+#include <vm.h>
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
 
@@ -206,5 +210,149 @@ int sys_fork(struct trapframe *tf, pid_t *retval){
 	*retval = 1;
 	// Enter_forked_process will handle the rest from the checklist
 	return 0;
+}
+
+//Execv system call
+int sys_execv(userptr_t progname, userptr_t args){
+	// Count number of arguments
+	int arg_count = 0;
+	char ** args_ptr = (char **) args; // Casting args to proper type
+	while(args_ptr[arg_count] != NULL){
+		arg_count++;
+	}
+	
+	// if too many args were passed in, return E2BIG
+	if(arg_count > ARG_MAX){
+		return E2BIG;
+	}
+	// Copy arguments into the kernel
+	char ** args_copy = kmalloc((sizeof(char *))*(arg_count + 1));
+	if(args_copy == NULL){
+		return ENOMEM;
+	}
+	for(int x = 0; x < arg_count; x++){
+		// Need to allocate space for each string in args_ptr
+		int current_str_len = strlen(args_ptr[x]) + 1;
+		args_copy[x] = kmalloc(sizeof(char) * current_str_len);
+		if(args_copy[x] == NULL){
+			return ENOMEM;
+		}
+		int strcopy_status = copyinstr((userptr_t)args_ptr[x], args_copy[x], current_str_len, NULL);
+		if(strcopy_status > 0){
+			kfree(args_copy);
+			return EFAULT;
+		}
+	}
+	// Add the null string to the end of the args_copy array
+	args_copy[arg_count] = NULL;
+
+	// Open program file using vfs_open
+	//  need to create a copy of the program name to pass into vfs_open
+	//  get length of progname first
+	int progname_length = strlen((char *) progname) + 1;
+	char * progname_copy = kmalloc(sizeof(char) * progname_length);
+	if(progname_copy == NULL){
+		return ENOMEM;
+	}
+	int strcopy_status = copyinstr(progname, progname_copy, progname_length, NULL);
+	if(strcopy_status > 0){
+		kfree(progname_copy);
+		return EFAULT;
+	}
+	// We need a vnode ptr to store the file that we are opening
+	struct vnode * vnode_ptr;
+	int vfs_open_status = vfs_open(progname_copy, O_RDONLY, 0, &vnode_ptr);
+	if(vfs_open_status != 0){
+		kfree(progname_copy);
+		return ENOENT;
+	}
+
+	// Create new address space, set process to new address space, activate
+	//  first get current address space
+	struct addrspace *as = curproc_getas();
+	struct addrspace *as_new = as_create();
+	if(as_new == NULL){
+		vfs_close(vnode_ptr);
+		kfree(progname_copy);
+		return ENOMEM;
+	}
+	as_deactivate(); // Deactivate old address space
+	curproc_setas(as_new); // Add new address space to the process
+	as_activate(); // Activate tbe new address space
+	
+	// Load program image using load_elf
+	// ** we need to keep an entrypoint ptr
+	vaddr_t entry_pt;
+	int load_elf_status = load_elf(vnode_ptr, &entry_pt); // Elves btw
+	if(load_elf_status){
+		vfs_close(vnode_ptr);
+		return ENODEV;
+	}
+	
+	// Close the file since the executable is now loaded
+	vfs_close(vnode_ptr);
+
+	// Copy args into the new address space
+	// Remember to copy the args (array and strings) onto user stack
+	//  as part of as_define_stack
+	
+	//  ** we need a stack ptr
+	vaddr_t stack_ptr;
+	int as_define_stack_status = as_define_stack(as_new, &stack_ptr);
+	if(as_define_stack_status){
+		return ENOMEM;
+	}
+	//  we need to bring the args_copy into user space
+	//  this means putting it on the user stack manually (gross)
+	//  we must populate the array from back to front, decrementing stack ptr
+	//  for every element
+	vaddr_t args_array[arg_count+1];
+	args_array[arg_count] = (vaddr_t) NULL; // Last element is null terminator
+	for(int x = arg_count-1; x >= 0; x--){
+		int current_string_length = strlen(args_copy[x]) + 1;
+		// Store this string on the stack
+		stack_ptr -= current_string_length;
+		// Save the address of this string on the stack
+		args_array[x] = stack_ptr;
+		int copyoutstr_status = copyoutstr(args_copy[x],
+						   (userptr_t) stack_ptr,
+						   current_string_length,
+						   NULL);
+		if(copyoutstr_status){
+			return ENOMEM;
+		}
+	}
+
+	// Now that all of the strings are on the stack, we need to construct the array of
+	//  pointers to the data
+
+	// Adjust the stackpointer to the nearest multiple of 8
+	if(stack_ptr % 8 != 0){
+		stack_ptr -= stack_ptr % 8;
+	}
+	
+	int vaddr_size = sizeof(vaddr_t) % 4 != 0 ?
+		sizeof(vaddr_t) + 4 - (sizeof(vaddr_t) % 4) :
+		sizeof(vaddr_t);
+	// Store an array of pointers on the stack
+	for (int x = arg_count; x >= 0; x--){ // Note this includes the null terminator
+		
+		stack_ptr = stack_ptr - vaddr_size;
+		int copyout_status = copyout(&args_array[x],
+					     (userptr_t) stack_ptr,
+					     sizeof(vaddr_t));
+		if(copyout_status){
+			return ENOMEM;
+		}
+	}
+	// Delete old address space
+	as_destroy(as);
+	// Call enter_new_process with address to arguments on the stack
+	//  also pass the stack pointer, and program entry point 
+	enter_new_process(arg_count, (userptr_t) stack_ptr, stack_ptr, entry_pt);
+	
+	// This code should never run:
+	panic("enter_new_process call failed (sys_execv)\n");
+	return -1;
 }
 #endif
