@@ -207,7 +207,7 @@ int sys_fork(struct trapframe *tf, pid_t *retval){
 		proc_destroy(child_proc);
 		return fork_status;
 	}
-	*retval = 1;
+	*retval = child_proc->p_id;
 	// Enter_forked_process will handle the rest from the checklist
 	return 0;
 }

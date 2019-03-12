@@ -258,6 +258,7 @@ proc_bootstrap(void)
 #endif // UW 
 #ifdef OPT_A2
   // current_pid = 1; //initialize the first pid to be returned
+  //current_pid = 1;
   pid_lock = lock_create("pid_lock");
 #endif
 }
