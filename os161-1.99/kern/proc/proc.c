@@ -51,6 +51,8 @@
 #include <synch.h>
 #include <kern/fcntl.h>  
 
+#include "opt-A2.h"
+
 /*
  * The process for the kernel; this holds all the kernel-only threads.
  */
@@ -68,7 +70,10 @@ static struct semaphore *proc_count_mutex;
 /* used to signal the kernel menu thread when there are no processes */
 struct semaphore *no_proc_sem;   
 #endif  // UW
-
+#ifdef OPT_A2
+static volatile pid_t current_pid = 1; // global pid counter, currently not reusable
+struct lock * pid_lock; // For providing exclusive access to 'current_pid'
+#endif
 
 
 /*
@@ -102,6 +107,25 @@ proc_create(const char *name)
 #ifdef UW
 	proc->console = NULL;
 #endif // UW
+#ifdef OPT_A2
+	// Initialize all of the added fields to thte proc struct
+	// For whatever reason, the lock isnt initialized yet for the first proc
+	if(current_pid == 1){
+		
+		proc->p_id = current_pid;
+		current_pid++;
+	}else{	
+		lock_acquire(pid_lock);
+		proc->p_id = current_pid;
+		current_pid++;
+		lock_release(pid_lock);
+	}
+	proc->parent_cv = cv_create("parent_cv");
+	proc->lock = lock_create("lock");
+	proc->has_exited = false;
+	proc->parent = NULL; //Should this be curproc?
+	proc->children = array_create();
+#endif
 
 	return proc;
 }
@@ -136,7 +160,31 @@ proc_destroy(struct proc *proc)
 		proc->p_cwd = NULL;
 	}
 
-
+#ifdef OPT_A2
+	// If there are children that have exited, we have to destroy them
+	// Also, we should remove active child processes from the array, but not destroy them
+	
+	// Due to the way array remove works, it is best to iterate from back to front of the array
+	for(int i = array_num(proc->children) - 1; i >= 0; i--){
+		struct proc * this_child = array_get(proc->children, i);
+		// If the child is exited then destroy and remove
+		// if not, set its parent to null
+		// In both cases, it is being removd from the array
+		lock_acquire(proc->lock);
+		array_remove(proc->children, i);
+		lock_release(proc->lock);
+		if(this_child->has_exited){
+			proc_destroy(this_child);
+		}else{
+			this_child->parent = NULL;
+		}
+	}
+	// Now that all of the elements ahve been removed from the array, destroy it
+	array_destroy(proc->children);
+	lock_destroy(proc->lock);
+	cv_destroy(proc->parent_cv);	
+	// Also destroy the other fields that still persist, such as the lock and parent cv
+#endif
 #ifndef UW  // in the UW version, space destruction occurs in sys_exit, not here
 	if (proc->p_addrspace) {
 		/*
@@ -208,6 +256,10 @@ proc_bootstrap(void)
     panic("could not create no_proc_sem semaphore\n");
   }
 #endif // UW 
+#ifdef OPT_A2
+  // current_pid = 1; //initialize the first pid to be returned
+  pid_lock = lock_create("pid_lock");
+#endif
 }
 
 /*

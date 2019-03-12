@@ -34,6 +34,8 @@
 #include <lib.h>
 #include <array.h>
 
+#include <proc.h>
+
 struct array *
 array_create(void)
 {

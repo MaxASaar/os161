@@ -36,6 +36,7 @@
 #include <current.h>
 #include <syscall.h>
 
+#include "opt-A2.h"
 
 /*
  * System call dispatcher.
@@ -130,9 +131,11 @@ syscall(struct trapframe *tf)
 			    (pid_t *)&retval);
 	  break;
 #endif // UW
-
-	    /* Add stuff here */
- 
+	#ifdef OPT_A2
+	case SYS_fork:
+	  err = sys_fork(tf, (pid_t *) &retval);
+	  break;
+ 	#endif
 	default:
 	  kprintf("Unknown syscall %d\n", callno);
 	  err = ENOSYS;
@@ -177,7 +180,25 @@ syscall(struct trapframe *tf)
  * Thus, you can trash it and do things another way if you prefer.
  */
 void
-enter_forked_process(struct trapframe *tf)
+enter_forked_process(void *tf, unsigned long unused)
 {
+	#ifdef OPT_A2
+	(void) unused;
+	// This is the function that newly forked threads immediately run
+	// Child thread needs to put the trapframe onto the stack
+	// and modify it so it returns current value, and executes
+	// the next instruction
+
+	// Copy the trapframe onto the stack
+	struct trapframe local_trapframe = *(struct trapframe *)tf;
+	// Make the child process return 0 and no error
+	local_trapframe.tf_v0 = 0;
+	local_trapframe.tf_a3 = 0;
+	// Increment pc by 4
+	local_trapframe.tf_epc += 4;
+	// Call mips_usermore in the child to go back to userspace
+	mips_usermode(&local_trapframe);
+	#else
 	(void)tf;
+	#endif
 }

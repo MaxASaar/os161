@@ -39,6 +39,8 @@
 #include <spinlock.h>
 #include <thread.h> /* required for struct threadarray */
 
+#include "opt-A2.h"
+
 struct addrspace;
 struct vnode;
 #ifdef UW
@@ -68,7 +70,18 @@ struct proc {
   struct vnode *console;                /* a vnode for the console device */
 #endif
 
-	/* add more material here as needed */
+#ifdef OPT_A2
+	// Id of the process
+	pid_t p_id;
+	struct cv *parent_cv; // For when the parent wants to access our has_exited and exit_code fields
+	struct lock *lock; // For locking during above cv usage
+	int exit_code;
+	bool has_exited;
+	struct proc *parent;
+	struct array *children;
+	// Note, alot of these fields have to be initialized in proc_create
+#endif
+
 };
 
 /* This is the process structure for the kernel and for kernel-only threads. */
