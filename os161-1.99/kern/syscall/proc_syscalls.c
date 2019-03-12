@@ -262,7 +262,7 @@ int sys_execv(userptr_t progname, userptr_t args){
 	// We need a vnode ptr to store the file that we are opening
 	struct vnode * vnode_ptr;
 	int vfs_open_status = vfs_open(progname_copy, O_RDONLY, 0, &vnode_ptr);
-	if(vfs_open_status != 0){
+	if(vfs_open_status){
 		kfree(progname_copy);
 		return ENOENT;
 	}
