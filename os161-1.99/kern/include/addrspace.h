@@ -36,6 +36,7 @@
 
 
 #include <vm.h>
+#include "opt-A3.h"
 
 struct vnode;
 
@@ -55,6 +56,13 @@ struct addrspace {
   paddr_t as_pbase2;
   size_t as_npages2;
   paddr_t as_stackpbase;
+
+  #if OPT_A3
+  // We need to add a couple things to the addrspace
+  // Specifically a boolean that is true once the elf has finished loading
+  // so that we know when to block writes to the text segment
+  bool as_blocktextwrite;
+  #endif
 };
 
 /*

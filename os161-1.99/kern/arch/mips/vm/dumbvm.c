@@ -38,6 +38,7 @@
 #include <addrspace.h>
 #include <vm.h>
 #include "opt-A3.h"
+#include <syscall.h>
 /*
  * Dumb MIPS-only "VM system" that is intended to only be just barely
  * enough to struggle off the ground.
@@ -113,15 +114,24 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	uint32_t ehi, elo;
 	struct addrspace *as;
 	int spl;
-
+	#if OPT_A3
+	bool is_text_segment = false;
+	#endif
 	faultaddress &= PAGE_FRAME;
 
 	DEBUG(DB_VM, "dumbvm: fault: 0x%x\n", faultaddress);
 
 	switch (faulttype) {
 	    case VM_FAULT_READONLY:
+		#if OPT_A3
+		// We need to kill the current process (use sys exit)
+		sys__exit(1);
+		
+		break;
+		#else
 		/* We always create pages read-write, so we can't get this */
 		panic("dumbvm: got VM_FAULT_READONLY\n");
+		#endif
 	    case VM_FAULT_READ:
 	    case VM_FAULT_WRITE:
 		break;
@@ -170,6 +180,10 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 
 	if (faultaddress >= vbase1 && faultaddress < vtop1) {
 		paddr = (faultaddress - vbase1) + as->as_pbase1;
+		#if OPT_A3
+		// We know we are in the text segment
+		is_text_segment = true;
+		#endif
 	}
 	else if (faultaddress >= vbase2 && faultaddress < vtop2) {
 		paddr = (faultaddress - vbase2) + as->as_pbase2;
@@ -194,6 +208,11 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 		}
 		ehi = faultaddress;
 		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		#if OPT_A3
+		if(as->as_blocktextwrite && is_text_segment){ 
+			elo &= ~TLBLO_DIRTY;
+		}
+		#endif
 		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
 		tlb_write(ehi, elo, i);
 		splx(spl);
@@ -205,6 +224,9 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	// kprintf("TLB is full, writing to random TLB index");
 	ehi = faultaddress;
 	elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+	if(as->as_blocktextwrite && is_text_segment){ 
+		elo &= ~TLBLO_DIRTY;
+	}
 	tlb_random(ehi, elo);
 	// kprintf("Wrote to random TLB index");
 	splx(spl);
@@ -231,7 +253,10 @@ as_create(void)
 	as->as_pbase2 = 0;
 	as->as_npages2 = 0;
 	as->as_stackpbase = 0;
-
+	
+	#if OPT_A3
+	as->as_blocktextwrite = false;
+	#endif
 	return as;
 }
 
@@ -246,7 +271,6 @@ as_activate(void)
 {
 	int i, spl;
 	struct addrspace *as;
-
 	as = curproc_getas();
 #ifdef UW
         /* Kernel threads don't have an address spaces to activate */
@@ -285,7 +309,7 @@ as_define_region(struct addrspace *as, vaddr_t vaddr, size_t sz,
 	sz = (sz + PAGE_SIZE - 1) & PAGE_FRAME;
 
 	npages = sz / PAGE_SIZE;
-
+	
 	/* We don't use these - all pages are read-write */
 	(void)readable;
 	(void)writeable;
@@ -349,7 +373,13 @@ as_prepare_load(struct addrspace *as)
 int
 as_complete_load(struct addrspace *as)
 {
+	#if OPT_A3
+	// Since the file has successfully loaded into the address space
+	// we need to set the text segment of the address space to read only
+	as->as_blocktextwrite = true;	
+	#else
 	(void)as;
+	#endif
 	return 0;
 }
 
