@@ -38,12 +38,28 @@
 
 
 #include <machine/vm.h>
+#include "opt-A3.h"
+#include <synch.h> // for locks
+
+// Going to define the coremap in here
 
 /* Fault-type arguments to vm_fault() */
 #define VM_FAULT_READ        0    /* A read was attempted */
 #define VM_FAULT_WRITE       1    /* A write was attempted */
 #define VM_FAULT_READONLY    2    /* A write to a readonly page was attempted*/
 
+#if OPT_A3
+struct core {
+	bool is_being_used;
+	paddr_t physical_address;
+	unsigned int size;
+};
+struct coremap {	
+	unsigned int coremap_size;
+	struct core * cores;	
+};
+struct coremap * coremap_init(void);
+#endif
 
 /* Initialization function */
 void vm_bootstrap(void);

@@ -52,16 +52,124 @@
  */
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
 
+#if OPT_A3
+static struct coremap *cmap;
+static struct lock * coremap_lock;
+static bool coremap_is_initialized = false;
+
+struct coremap * coremap_init(void){
+	coremap_lock = lock_create("coremap lock");
+	paddr_t start_of_ram;
+	paddr_t end_of_ram;
+	// Get the size of ram
+	ram_getsize(&start_of_ram, &end_of_ram);
+
+	unsigned int total_memory = (unsigned int) end_of_ram - start_of_ram;
+	unsigned int number_of_frames = total_memory / PAGE_SIZE;
+		
+	
+	// Allocate space for the coremap itself
+	// We need to use the first frame of memory to store the coremap
+	// But what if the coremap is too big for the first frame?
+	// We need to add the size of the coremap and the size of all of the cores
+	// To figure out how big of a chunk we need to adjust for at the start of ram
+	
+	// We know the number of frames, so we can calculate the size of the array
+	
+	unsigned int size_of_core_array = sizeof(struct core) * number_of_frames;
+	//unsigned int size_of_core_array_pointers = sizeof(struct core*) * number_of_frames;
+	unsigned int size_of_coremap = sizeof(struct coremap);
+	
+	// Determine how many less frames we have due to adding these structures
+	// at the start of ram 
+	unsigned int total_coremap_size = size_of_core_array +
+					//size_of_core_array_pointers +
+					size_of_coremap;
+	//kprintf("TOTAL COREMAP SIZE: %d\n", total_coremap_size);
+	//kprintf("NUMBER OF FRAMES IN RAM: %d\n", number_of_frames);
+	//kprintf("A FRAME IS THIS BIG: %d\n", PAGE_SIZE);
+	int number_of_frames_less = total_coremap_size / PAGE_SIZE + 1; //sloppy round up
+	//kprintf("We need to take away %d frames\n", number_of_frames_less);
+	
+	paddr_t this_coremap_paddr = start_of_ram;
+	paddr_t this_core_array = start_of_ram + size_of_coremap;
+	//paddr_t this_core_array_data = this_core_array + size_of_core_array_pointers;
+
+	vaddr_t coremap_vaddr = PADDR_TO_KVADDR(this_coremap_paddr);
+	vaddr_t core_array_vaddr = PADDR_TO_KVADDR(this_core_array);
+	//vaddr_t core_array_data_vaddr = PADDR_TO_KVADDR(this_core_array_data);
+	// Populate the coremap with all of the data
+	struct coremap * this_coremap = (struct coremap *) coremap_vaddr;
+	this_coremap->coremap_size = number_of_frames - number_of_frames_less;
+	this_coremap->cores = (struct core *)core_array_vaddr;
+	
+	// Loop through the array of cores, initializing all of them
+	for(unsigned int i = 0; i < this_coremap->coremap_size; i++){
+		this_coremap->cores[i].physical_address = start_of_ram
+					+ (PAGE_SIZE * number_of_frames_less)
+					+ (PAGE_SIZE * i);
+		this_coremap->cores[i].is_being_used = false;
+	}	
+	return this_coremap;
+}
+#endif
+
 void
 vm_bootstrap(void)
 {
+	#if OPT_A3
+	// Initialize the coremap
+	cmap = coremap_init();	
+	coremap_is_initialized = true;
+	#else
 	/* Do nothing. */
+	#endif
 }
 
 static
 paddr_t
 getppages(unsigned long npages)
 {
+	#if OPT_A3
+	if(!coremap_is_initialized){
+		paddr_t addr;
+		spinlock_acquire(&stealmem_lock);
+		//kprintf("STEALING SOM RAM PAGES: %d\n", (int) npages);
+		addr = ram_stealmem(npages);
+		//kprintf("Stolen address = %d\n", (int) addr);
+		spinlock_release(&stealmem_lock);
+		return addr;
+	}
+	
+	lock_acquire(coremap_lock);
+	for(unsigned int i = 0; i < cmap->coremap_size; i++){
+		// Loop through all of the cores until an unowned one is found
+		if(!cmap->cores[i].is_being_used){
+			// Check if there are n pages in a row
+			int count_in_row = 1;
+			bool not_long_enough = false;
+			for(unsigned int j = i + 1; j < i + npages && j < cmap->coremap_size; j++){
+				if(cmap->cores[i].is_being_used){
+					not_long_enough = true;
+				}
+				count_in_row++;
+			}
+			if(not_long_enough){
+				//i += count_in_row - 1;
+				continue;
+			}
+			cmap->cores[i].size = npages;
+			// Loop through all of the pages and set them to used
+			for(unsigned int j = i; j < i + npages; j++){
+				cmap->cores[j].is_being_used = true;
+			}
+			lock_release(coremap_lock);
+			return cmap->cores[i].physical_address;
+		}
+	}
+	lock_release(coremap_lock);
+	return 0;
+	#else
 	paddr_t addr;
 
 	spinlock_acquire(&stealmem_lock);
@@ -70,6 +178,7 @@ getppages(unsigned long npages)
 	
 	spinlock_release(&stealmem_lock);
 	return addr;
+	#endif
 }
 
 /* Allocate/free some kernel-space virtual pages */
